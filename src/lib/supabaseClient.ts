@@ -10,7 +10,7 @@ export function createClerkSupabaseClient(
       global: {
         fetch: async (url, options = {}) => {
           const clerkToken = await getToken();
-          console.log("CLERK TOKEN: ", clerkToken);
+
           if (!clerkToken) {
             throw new Error("Failed to retrieve Clerk token.");
           }
@@ -18,7 +18,13 @@ export function createClerkSupabaseClient(
           const headers = new Headers(options?.headers);
           headers.set("Authorization", `Bearer ${clerkToken}`);
 
-          return fetch(url, { ...options, headers });
+          const response = await fetch(url, { ...options, headers });
+
+          if (response.status === 401) {
+            console.error("401 Unauthorized: Invalid Clerk token or session.");
+          }
+
+          return response;
         },
       },
     }
