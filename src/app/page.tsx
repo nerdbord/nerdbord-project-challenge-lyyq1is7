@@ -1,10 +1,10 @@
+"use client"
 import { auth, currentUser } from "@clerk/nextjs/server";
 // import styles from "./page.module.css";
 
 // import ReadTextFromPhoto from "@/components/ReadTextFromPhoto";
 
 // import { UploadForm } from "@/components/UploadForm";
-
 
 // export default function Home() {
 //   const { userId } = auth();
@@ -19,15 +19,16 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 //     </main>
 //   );
 // }
-'use client';
-import { useEffect, useState } from 'react';
-import { useSession, useUser } from '@clerk/nextjs';
-import { createClient } from '@supabase/supabase-js';
+
+import { useEffect, useState } from "react";
+import { useSession, useUser } from "@clerk/nextjs";
+import { createClient } from "@supabase/supabase-js";
 
 export default function Home() {
   const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
   // The `useUser()` hook will be used to ensure that Clerk has loaded data about the logged in user
   const { user } = useUser();
   // The `useSession()` hook will be used to get the Clerk session object
@@ -43,12 +44,12 @@ export default function Home() {
           // Get the custom Supabase token from Clerk
           fetch: async (url, options = {}) => {
             const clerkToken = await session?.getToken({
-              template: 'supabase',
+              template: "supabase",
             });
 
             // Insert the Clerk Supabase token into the headers
             const headers = new Headers(options?.headers);
-            headers.set('Authorization', `Bearer ${clerkToken}`);
+            headers.set("Authorization", `Bearer ${clerkToken}`);
 
             // Now call the default fetch
             return fetch(url, {
@@ -71,8 +72,13 @@ export default function Home() {
 
     async function loadExpenses() {
       setLoading(true);
-      const { data, error } = await client.from('expenses').select();
-      if (!error) setExpenses(data);
+      const { data, error } = await client.from("expenses").select();
+      if (error) {
+        console.error("Error loading expenses:", error);
+        setError("Failed to load expenses. Please try again later.");
+      } else {
+        setExpenses(data);
+      }
       setLoading(false);
     }
 
@@ -82,10 +88,15 @@ export default function Home() {
   async function createExpense(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // Insert expense into the "expenses" database
-    await client.from('expenses').insert({
+    await client.from("expenses").insert({
       name,
     });
-    window.location.reload();
+    if (error) {
+      console.error("Error creating expense:", error);
+      setError("Failed to create expense. Please try again later.");
+    } else {
+      window.location.reload();
+    }
   }
 
   return (
@@ -99,6 +110,7 @@ export default function Home() {
         expenses.map((expense: any) => <p>{expense.name}</p>)}
 
       {!loading && expenses.length === 0 && <p>No expenses found</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={createExpense}>
         <input
@@ -110,6 +122,7 @@ export default function Home() {
           value={name}
         />
         <button type="submit">Add</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>
   );
