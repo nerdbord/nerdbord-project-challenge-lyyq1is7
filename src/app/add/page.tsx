@@ -19,10 +19,6 @@ export default function Home() {
   const { session } = useSession();
   const [client, setClient] = useState<any>(null);
 
-  console.log("user", user);
-  console.log("session", session);
-  console.log("client", client);
-
   // Initialize Supabase client when session is available
   useEffect(() => {
     async function initializeClient() {
@@ -50,10 +46,8 @@ export default function Home() {
     async function loadExpenses() {
       setLoading(true);
       try {
-        const { data, error } = await client.from("expenses").select();
-        if (error) {
-          throw error;
-        }
+        const { data } = await client.from("expenses").select();
+        if (data.length === 0) setErrorMsg("No expenses found");
         setExpenses(data);
       } catch (error) {
         setErrorMsg("Failed to load expenses");
@@ -70,15 +64,10 @@ export default function Home() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data, error } = await client.from("expenses").insert({
+      const { data } = await client.from("expenses").insert({
         name,
       });
-
-      if (error) {
-        throw error;
-      }
-
-      setExpenses((prevExpenses) => [...prevExpenses, data[0]]);
+      setExpenses((prevExpenses) => [...prevExpenses, data]);
       setName("");
     } catch (error) {
       setErrorMsg("Failed to create expense");
@@ -93,11 +82,10 @@ export default function Home() {
       {loading && <p>Loading...</p>}
       {!loading &&
         expenses.length > 0 &&
-        expenses.map((expense) => <p key={expense.id}>{expense.name}</p>)}
+        !errorMsg &&
+        expenses.map((expense) => <p key={expense?.id}>{expense?.name}</p>)}
       {!loading && errorMsg && <p>{errorMsg}</p>}
-      {!loading && !errorMsg && expenses.length === 0 && (
-        <p>No expenses found</p>
-      )}
+
       <form onSubmit={createExpense}>
         <input
           autoFocus
