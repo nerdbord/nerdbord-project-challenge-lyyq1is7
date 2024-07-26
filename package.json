@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.6",
+    "@google-cloud/vision": "^4.3.0",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.44.4",
     "formik": "^2.4.6",
     "next": "14.2.5",
+
     "openai": "^4.53.1",
+
     "react": "^18",
     "react-dom": "^18",
     "yup": "^1.4.0"
