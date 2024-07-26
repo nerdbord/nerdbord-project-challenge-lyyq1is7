@@ -28,6 +28,7 @@ export default function Home() {
             // Insert the Clerk Supabase token into the headers
             const headers = new Headers(options?.headers);
             headers.set("Authorization", `Bearer ${clerkToken}`);
+            headers.set("Authorization", `Bearer ${clerkToken}`);
 
             // Now call the default fetch
             return fetch(url, {
@@ -64,7 +65,12 @@ export default function Home() {
     await client.from("expenses").insert({
       name,
     });
-    window.location.reload();
+    if (error) {
+      console.error("Error creating expense:", error);
+      setError("Failed to create expense. Please try again later.");
+    } else {
+      window.location.reload();
+    }
   }
 
   return (
@@ -89,6 +95,7 @@ export default function Home() {
           value={name}
         />
         <button type="submit">Add</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>
   );
