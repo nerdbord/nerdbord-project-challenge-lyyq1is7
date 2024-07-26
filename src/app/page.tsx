@@ -110,7 +110,6 @@ export default function Home() {
         expenses.map((expense: any) => <p>{expense.name}</p>)}
 
       {!loading && expenses.length === 0 && <p>No expenses found</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={createExpense}>
         <input
