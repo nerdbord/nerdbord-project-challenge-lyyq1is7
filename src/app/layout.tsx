@@ -4,8 +4,8 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+  UserButton,
+} from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -23,17 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang='en'>
-      <body className={inter.className}>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        {children}
-      </body>
-    </html>
-  </ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
