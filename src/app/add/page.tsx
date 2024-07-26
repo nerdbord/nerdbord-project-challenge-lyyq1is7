@@ -42,22 +42,21 @@ export default function Home() {
   // Load expenses when client and user are available
   useEffect(() => {
     if (!client || !user) return;
-
-    async function loadExpenses() {
-      setLoading(true);
-      try {
-        const { data } = await client.from("expenses").select();
-        if (data.length === 0) setErrorMsg("No expenses found");
-        setExpenses(data);
-      } catch (error) {
-        setErrorMsg("Failed to load expenses");
-      } finally {
-        setLoading(false);
-      }
-    }
-
     loadExpenses();
   }, [client, user]); //reload only when client or user changes
+
+  async function loadExpenses() {
+    setLoading(true);
+    try {
+      const { data } = await client.from("expenses").select();
+      if (data.length === 0) setErrorMsg("No expenses found");
+      setExpenses(data);
+    } catch (error) {
+      setErrorMsg("Failed to load expenses");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Handle creating a new expense
   async function createExpense(e: React.FormEvent<HTMLFormElement>) {
@@ -67,11 +66,12 @@ export default function Home() {
       const { data } = await client.from("expenses").insert({
         name,
       });
-      setExpenses((prevExpenses) => [...prevExpenses, data]);
+
       setName("");
     } catch (error) {
       setErrorMsg("Failed to create expense");
     } finally {
+      loadExpenses();
       setLoading(false);
     }
   }
