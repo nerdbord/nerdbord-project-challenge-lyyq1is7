@@ -18,17 +18,14 @@ export const Expenses = () => {
   const { session } = useSession();
 
   useEffect(() => {
-    const savedExpenses = localStorage.getItem("expenses");
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses));
-    } else if (client && session) {
+    if (client && session) {
       loadExpenses();
     }
   }, [session, client]);
 
   async function loadExpenses() {
-    setErrorMsg(null);
     setLoading(true);
+    setErrorMsg(null);
 
     try {
       const { data, error } = await client.from("expenses").select();
@@ -38,7 +35,6 @@ export const Expenses = () => {
         setErrorMsg("No expenses found");
       } else {
         setExpenses(data);
-        localStorage.setItem("expenses", JSON.stringify(data));
       }
     } catch (error) {
       setErrorMsg("Failed to load expenses");
@@ -46,10 +42,6 @@ export const Expenses = () => {
       setLoading(false);
     }
   }
-
-  const handleExpenseAdded = () => {
-    loadExpenses();
-  };
 
   return (
     <div>
@@ -60,7 +52,7 @@ export const Expenses = () => {
         expenses.map((expense) => <p key={expense.id}>{expense.name}</p>)}
       {!loading && errorMsg && <p>{errorMsg}</p>}
 
-      <AddExpenseForm client={client} onExpenseAdded={handleExpenseAdded} />
+      <AddExpenseForm client={client} onExpenseAdded={loadExpenses} />
     </div>
   );
 };
