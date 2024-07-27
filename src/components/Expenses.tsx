@@ -12,23 +12,23 @@ interface Expense {
 
 export const Expenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { client } = useSupabaseClient();
   const { session } = useSession();
 
-  console.log("CLIENT => ", client);
-  console.log("SESSION => ", session);
-
   useEffect(() => {
-    if (client && session) {
+    const savedExpenses = localStorage.getItem("expenses");
+    if (savedExpenses) {
+      setExpenses(JSON.parse(savedExpenses));
+    } else if (client && session) {
       loadExpenses();
     }
   }, [session, client]);
 
   async function loadExpenses() {
-    setLoading(true);
     setErrorMsg(null);
+    setLoading(true);
 
     try {
       const { data, error } = await client.from("expenses").select();
@@ -38,6 +38,7 @@ export const Expenses = () => {
         setErrorMsg("No expenses found");
       } else {
         setExpenses(data);
+        localStorage.setItem("expenses", JSON.stringify(data));
       }
     } catch (error) {
       setErrorMsg("Failed to load expenses");
@@ -45,6 +46,10 @@ export const Expenses = () => {
       setLoading(false);
     }
   }
+
+  const handleExpenseAdded = () => {
+    loadExpenses();
+  };
 
   return (
     <div>
@@ -55,7 +60,7 @@ export const Expenses = () => {
         expenses.map((expense) => <p key={expense.id}>{expense.name}</p>)}
       {!loading && errorMsg && <p>{errorMsg}</p>}
 
-      <AddExpenseForm client={client} onExpenseAdded={loadExpenses} />
+      <AddExpenseForm client={client} onExpenseAdded={handleExpenseAdded} />
     </div>
   );
 };
