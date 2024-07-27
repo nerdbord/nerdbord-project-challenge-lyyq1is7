@@ -1,10 +1,32 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export function createClerkSupabaseClient(
+  getToken: () => Promise<string | null>
+) {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      global: {
+        fetch: async (url, options = {}) => {
+          const clerkToken = await getToken();
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Missing environment variables for Supabase");
+          if (!clerkToken) {
+            throw new Error("Failed to retrieve Clerk token.");
+          }
+
+          const headers = new Headers(options?.headers);
+          headers.set("Authorization", `Bearer ${clerkToken}`);
+
+          const response = await fetch(url, { ...options, headers });
+
+          if (response.status === 401) {
+            console.error("401 Unauthorized: Invalid Clerk token or session.");
+          }
+
+          return response;
+        },
+      },
+    }
+  );
 }
-
-export const supabase = createClient(supabaseUrl, supabaseKey);

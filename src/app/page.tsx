@@ -1,21 +1,21 @@
+import React from "react";
+import { Expenses } from "@/components/Expenses";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import styles from "./page.module.css";
 
-import ReadTextFromPhoto from "@/components/ReadTextFromPhoto";
-
-import { UploadForm } from "@/components/UploadForm";
-
-
-export default function Home() {
+export default async function Home() {
   const { userId } = auth();
+  const user = await currentUser();
 
   return (
-    <main className={styles.main}>
-
-      {userId ?  <UploadForm /> : <div>Sign in to upload a photo</div>}
-
-      <UploadForm />
-
-    </main>
+    <div>
+      {user ? (
+        <>
+          <h1>Expenses</h1>
+          <Expenses />
+        </>
+      ) : (
+        <p>Landing</p>
+      )}
+    </div>
   );
 }

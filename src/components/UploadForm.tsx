@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { analyzeImage } from "@/utils/analyzeImage";
 
 export const UploadForm = () => {
   const [imageUrl, setImageUrl] = useState("");
@@ -19,42 +20,15 @@ export const UploadForm = () => {
     setResponse(null);
     setError(null);
 
-    if (!imageUrl || !isValidUrl(imageUrl)) {
-      setError("Invalid URL");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const res = await fetch("/api/vision", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ image_url: imageUrl }),
-      });
-
-      if (res.status !== 200) {
-        throw new Error("Failed to analyze image: " + res.statusText);
-      }
-
-      const data = await res.json();
+      const data = await analyzeImage(imageUrl);
       setResponse(data);
       console.log(data.message);
     } catch (error) {
       console.error(error);
-      setError("Failed to analyze image ");
+      setError(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch (_) {
-      return false;
     }
   };
 
