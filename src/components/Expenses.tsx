@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
 import { AddExpenseForm } from "./Form";
 import { useSupabaseClient } from "@/contexts/supabaseContext";
+import { useSession } from "@clerk/nextjs";
+
 interface Expense {
   id: number;
   name: string;
@@ -13,15 +14,17 @@ export const Expenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { client } = useSupabaseClient();
+  const { session } = useSession();
 
-  const { user } = useUser();
-  const { client, error } = useSupabaseClient();
+  console.log("CLIENT => ", client);
+  console.log("SESSION => ", session);
 
-  // Load expenses when client and user are available
   useEffect(() => {
-    if (!client || !user) return;
-    loadExpenses();
-  }, [client, user]);
+    if (client && session) {
+      loadExpenses();
+    }
+  }, [session, client]);
 
   async function loadExpenses() {
     setLoading(true);
@@ -51,9 +54,6 @@ export const Expenses = () => {
         !errorMsg &&
         expenses.map((expense) => <p key={expense.id}>{expense.name}</p>)}
       {!loading && errorMsg && <p>{errorMsg}</p>}
-      {!loading && !errorMsg && expenses.length === 0 && (
-        <p>No expenses found</p>
-      )}
 
       <AddExpenseForm client={client} onExpenseAdded={loadExpenses} />
     </div>
