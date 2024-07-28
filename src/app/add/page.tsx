@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { useSession, useUser } from "@clerk/nextjs";
 import { createClient } from "@supabase/supabase-js";
 
+
 export default function Home() {
   const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
   // The `useUser()` hook will be used to ensure that Clerk has loaded data about the logged in user
   const { user } = useUser();
   // The `useSession()` hook will be used to get the Clerk session object
@@ -27,7 +29,6 @@ export default function Home() {
 
             // Insert the Clerk Supabase token into the headers
             const headers = new Headers(options?.headers);
-            headers.set("Authorization", `Bearer ${clerkToken}`);
             headers.set("Authorization", `Bearer ${clerkToken}`);
 
             // Now call the default fetch
@@ -73,51 +74,53 @@ export default function Home() {
     }
   }
 
-  return (
-    <div>
-      <h1>Expenses</h1>
 
-      {loading && <p>Loading...</p>}
+    return (
+      <div>
+        <h1>Expenses</h1>
 
-      {!loading &&
-        expenses.length > 0 &&
-        expenses.map((expense: any) => <p>{expense.name}</p>)}
+        {loading && <p>Loading...</p>}
 
-      {!loading && expenses.length === 0 && <p>No expenses found</p>}
+        {!loading &&
+          expenses.length > 0 &&
+          expenses.map((expense: any) => <p>{expense.name}</p>)}
 
-      <form onSubmit={createExpense}>
-        <input
-          autoFocus
-          type="text"
-          name="name"
-          placeholder="Enter new expense"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-        <button type="submit">Add</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </form>
-    </div>
-  );
+        {!loading && expenses.length === 0 && <p>No expenses found</p>}
+
+        <form onSubmit={createExpense}>
+          <input
+            autoFocus
+            type="text"
+            name="name"
+            placeholder="Enter new expense"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+          <button type="submit">Add</button>
+
+        </form>
+      </div>
+    );
+  };
+
+  /* import { auth, currentUser } from "@clerk/nextjs/server"; */
+  // import styles from "./page.module.css";
+
+  // import ReadTextFromPhoto from "@/components/ReadTextFromPhoto";
+
+  // import { UploadForm } from "@/components/UploadForm";
+
+  // export default function Home() {
+  //   const { userId } = auth();
+
+  //   return (
+  //     <main className={styles.main}>
+
+  //       {userId ?  <UploadForm /> : <div>Sign in to upload a photo</div>}
+
+  //       <UploadForm />
+
+  //     </main>
+  //   );
+  // }
 }
-
-/* import { auth, currentUser } from "@clerk/nextjs/server"; */
-// import styles from "./page.module.css";
-
-// import ReadTextFromPhoto from "@/components/ReadTextFromPhoto";
-
-// import { UploadForm } from "@/components/UploadForm";
-
-// export default function Home() {
-//   const { userId } = auth();
-
-//   return (
-//     <main className={styles.main}>
-
-//       {userId ?  <UploadForm /> : <div>Sign in to upload a photo</div>}
-
-//       <UploadForm />
-
-//     </main>
-//   );
-// }

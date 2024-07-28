@@ -2,7 +2,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "@clerk/nextjs";
-import { createClerkSupabaseClient } from "@/lib/supabaseClient";
+import { createClerkSupabaseClient } from "@/lib/clerkSupabaseClient";
 
 interface SupabaseClientContextProps {
   client: any;

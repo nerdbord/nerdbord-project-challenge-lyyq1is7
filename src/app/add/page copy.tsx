@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession, useUser } from "@clerk/nextjs";
-import { createClerkSupabaseClient } from "@/lib/supabaseClient";
+import { createClerkSupabaseClient } from "@/lib/clerkSupabaseClient";
 
 interface Expense {
   id: number;

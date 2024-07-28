@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 interface AddExpenseFormProps {
@@ -12,6 +14,8 @@ export const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const accept = "image/jpeg, image/jpg, image/png";
 
   // Handle creating a new expense
   async function createExpense(e: React.FormEvent<HTMLFormElement>) {
