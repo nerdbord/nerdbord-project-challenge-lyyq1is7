@@ -4,6 +4,7 @@ import { AddExpenseForm } from "./Form";
 import { useSupabaseClient } from "@/contexts/supabaseContext";
 import { useSession } from "@clerk/nextjs";
 import useSWR from "swr";
+import { ReceiptAnalyzer } from "./ReceiptAnalyzer";
 
 interface Expense {
   id: number;
@@ -43,6 +44,7 @@ export const Expenses = () => {
           <p key={expense.id}>{expense.name}</p>
         ))}
       <AddExpenseForm client={client} onExpenseAdded={() => mutate()} />
+      <ReceiptAnalyzer />
     </div>
   );
 };
