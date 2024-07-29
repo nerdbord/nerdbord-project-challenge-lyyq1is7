@@ -15,11 +15,10 @@
     "@supabase/supabase-js": "^2.44.4",
     "formik": "^2.4.6",
     "next": "14.2.5",
-
     "openai": "^4.53.1",
-
     "react": "^18",
     "react-dom": "^18",
+    "swr": "^2.2.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {
