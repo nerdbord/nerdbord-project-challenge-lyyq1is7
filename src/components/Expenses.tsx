@@ -1,49 +1,40 @@
 "use client";
 
 import { AddExpenseForm } from "./Form";
-import { useSupabaseClient } from "@/contexts/supabaseContext";
 import { useSession } from "@clerk/nextjs";
 import useSWR from "swr";
 import { ReceiptAnalyzer } from "./ReceiptAnalyzer";
+import { fetchExpenses } from "../actions/receipt";
 
-interface Expense {
+interface Receipt {
   id: number;
   name: string;
 }
 
-const fetcher = async (client: any) => {
-  const { data, error } = await client.from("expenses").select();
-  if (error) {
-    throw new Error("Failed to load expenses");
-  }
-  return data;
-};
-
 export const Expenses = () => {
-  const { client } = useSupabaseClient();
+  const [state, setState] = useState("");
   const { session } = useSession();
 
   const {
-    data: expenses,
+    data: receipts,
     error,
     mutate,
-  } = useSWR(client && session ? "expenses" : null, () => fetcher(client), {
+  } = useSWR(session ? "receipts" : null, fetchExpenses, {
     revalidateOnFocus: false,
   });
 
-  const isLoading = !expenses && !error;
+  const isLoading = !receipts && !error;
 
   return (
     <div>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
-      {expenses && expenses.length === 0 && <p>No expenses found</p>}
-      {expenses &&
-        expenses.length > 0 &&
-        expenses.map((expense: Expense) => (
-          <p key={expense.id}>{expense.name}</p>
-        ))}
-      <AddExpenseForm client={client} onExpenseAdded={() => mutate()} />
+      {receipts && receipts.length === 0 && <p>No expenses found</p>}
+      {}
+      {/*       {receipts &&
+        receipts.length > 0 &&
+        receipts.map((receipt: Receipt) => <p key={receipt.id}>{receipt}</p>)} */}
+
       <ReceiptAnalyzer />
     </div>
   );

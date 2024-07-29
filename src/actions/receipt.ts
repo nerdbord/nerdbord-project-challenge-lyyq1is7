@@ -1,4 +1,7 @@
 "use server";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const CATEGORIES = [
   "Clothes",
@@ -84,5 +87,36 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
   } catch (error) {
     console.error("Error analyzing receipt:", error);
     throw new Error("Error analyzing receipt");
+  }
+}
+
+export async function saveReceipt(receiptData: any): Promise<string> {
+  try {
+    const receipt = await prisma.receipt.create({
+      data: {
+        date: receiptData.DATE || "N/A",
+        shop: receiptData.SHOP || "N/A",
+        total: receiptData.SUM || "N/A",
+        receiptNumber: receiptData.RECEIPT_NUMBER || "N/A",
+        description: receiptData.DESC || "N/A",
+        category: receiptData.CATEGORY || "Inne",
+        image: receiptData.image || "",
+      },
+    });
+
+    return receipt.id;
+  } catch (error) {
+    console.error("Failed to save analyzed receipt:", error);
+    throw new Error("Failed to save analyzed receipt");
+  }
+}
+
+export async function fetchExpenses() {
+  try {
+    const expenses = await prisma.receipt.findMany();
+    return expenses;
+  } catch (error) {
+    console.error("Failed to load expenses:", error);
+    throw new Error("Failed to load expenses");
   }
 }
