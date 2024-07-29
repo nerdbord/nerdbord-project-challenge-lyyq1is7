@@ -8,13 +8,12 @@ import {
 } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SupabaseClientProvider } from "@/contexts/supabaseContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Ai Expense Tracker App",
-  description: "Built with Nextjs, Clerk and Supabase",
+  description: "Built with Nextjs, Clerk and Prisma",
 };
 
 export default function RootLayout({
@@ -24,19 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <SupabaseClientProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-            {children}
-          </body>
-        </html>
-      </SupabaseClientProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          {children}
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

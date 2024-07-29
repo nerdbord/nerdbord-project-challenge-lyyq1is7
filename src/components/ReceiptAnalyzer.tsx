@@ -1,10 +1,11 @@
 import React, { ChangeEventHandler, useState } from "react";
-import { analyzeReceipt } from "../actions/receipt"; // Ensure this path is correct
+import { analyzeReceipt, saveReceipt } from "../actions/receipt"; // Upewnij się, że ścieżka jest poprawna
 
 export const ReceiptAnalyzer = () => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<{ expense: any } | null>(null);
-  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const file = event.target.files && event.target.files[0];
@@ -13,18 +14,33 @@ export const ReceiptAnalyzer = () => {
       reader.onloadend = () => {
         setImage(reader.result as string | null);
       };
+      console.log(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
   const handleAnalyzeReceipt = async () => {
+    setLoading(true);
+    setMsg("");
     try {
       if (image) {
         const analysis = await analyzeReceipt(image);
         setResult(analysis);
       }
     } catch (error) {
-      setError("Failed to analyze receipt");
+      setMsg("Failed to analyze receipt");
+    }
+    setLoading(false);
+  };
+
+  const handleSaveExpense = async () => {
+    if (result && result.expense) {
+      try {
+        await saveReceipt({ ...result.expense, image });
+        setMsg("Expense saved successfully");
+      } catch (error) {
+        setMsg("Failed to save expense");
+      }
     }
   };
 
@@ -33,36 +49,43 @@ export const ReceiptAnalyzer = () => {
       <h1>Receipt Analyzer</h1>
       <input type="file" accept="image/*" onChange={handleImageChange} />
       <button onClick={handleAnalyzeReceipt}>Analyze Receipt</button>
-      {error && <p>{error}</p>}
+      {loading && <p>Analyzing...</p>}
+      {msg && <p>{msg}</p>}
+
       {result && result.expense && (
         <div>
           <h2>Analysis Result</h2>
           <form>
             <label>
               Store:
-              <input type="text" value={result.expense.store} />
+              <input type="text" value={result.expense.store} readOnly />
             </label>
             <br />
             <label>
               Expense:
-              <input type="text" value={result.expense.expense} />
+              <input type="text" value={result.expense.expense} readOnly />
             </label>
             <br />
             <label>
               Amount:
-              <input type="text" value={result.expense.amount} />
+              <input type="text" value={result.expense.amount} readOnly />
             </label>
             <br />
             <label>
               Category:
-              <input type="text" value={result.expense.expense_category} />
+              <input
+                type="text"
+                value={result.expense.expense_category}
+                readOnly
+              />
             </label>
             <br />
             <label>
               Date:
-              <input type="text" value={result.expense.date} />
+              <input type="text" value={result.expense.date} readOnly />
             </label>
           </form>
+          <button onClick={handleSaveExpense}>Save Expense</button>
         </div>
       )}
     </div>
