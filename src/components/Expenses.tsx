@@ -12,7 +12,6 @@ interface Receipt {
 }
 
 export const Expenses = () => {
-  const [state, setState] = useState("");
   const { session } = useSession();
 
   const {
