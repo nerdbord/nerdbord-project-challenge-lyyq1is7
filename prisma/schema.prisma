@@ -17,18 +17,17 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  receipts  Receipt[] @relation("UserReceipts")
+  receipts  Receipts[] @relation("UserReceipts")
 }
 
-model Receipt {
+model Receipts {
   id            String   @id @default(cuid())
   image         String?
   date          String?
-  shop          String?
+  store         String?
+  items         String?
   total         String?
-  receiptNumber String?
   category      String?
-  description   String?
   createdAt     DateTime @default(now())
   userId        String?
   user          User?    @relation("UserReceipts", fields: [userId], references: [id])

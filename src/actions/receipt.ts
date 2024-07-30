@@ -37,11 +37,12 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
             Answer ONLY by filling out the JSON structure correctly:
             {
               "expense": {
+                "date": "date of purchase"
                 "store": "store name",
-                "expense": "all bought products, separated by commas",
-                "amount": "sum of money spent",
-                "expense_category": "category of expense",
-                "date": "date purchase"
+                "total": "sum of money spent",
+                "items": "all bought products, separated by commas",
+                "category": "category of expense",
+             
               }
             }
               Match the categories from the table: ${CATEGORIES.join(", ")}.
@@ -92,15 +93,15 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
 export async function saveReceipt(receiptData: any): Promise<string> {
   try {
-    const receipt = await prisma.receipt.create({
+    const receipt = await prisma.receipts.create({
       data: {
-        date: receiptData.DATE || "N/A",
-        shop: receiptData.SHOP || "N/A",
-        total: receiptData.SUM || "N/A",
-        receiptNumber: receiptData.RECEIPT_NUMBER || "N/A",
-        description: receiptData.DESC || "N/A",
-        category: receiptData.CATEGORY || "Inne",
+        date: receiptData.date || "N/A",
+        store: receiptData.store || "N/A",
+        items: receiptData.items || "N/A",
+        total: receiptData.total || "N/A",
+        category: receiptData.category || "Other",
         image: receiptData.image || "",
+        //userId: userId || null, // Assuming userId is provided
       },
     });
 
@@ -113,7 +114,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
 
 export async function fetchExpenses() {
   try {
-    const expenses = await prisma.receipt.findMany();
+    const expenses = await prisma.receipts.findMany();
     return expenses;
   } catch (error) {
     console.error("Failed to load expenses:", error);

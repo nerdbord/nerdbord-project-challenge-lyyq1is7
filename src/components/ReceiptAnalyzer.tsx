@@ -62,22 +62,18 @@ export const ReceiptAnalyzer = () => {
             </label>
             <br />
             <label>
-              Expense:
-              <input type="text" value={result.expense.expense} readOnly />
+              Items bought:
+              <input type="text" value={result.expense.items} readOnly />
             </label>
             <br />
             <label>
-              Amount:
-              <input type="text" value={result.expense.amount} readOnly />
+              Total:
+              <input type="text" value={result.expense.total} readOnly />
             </label>
             <br />
             <label>
               Category:
-              <input
-                type="text"
-                value={result.expense.expense_category}
-                readOnly
-              />
+              <input type="text" value={result.expense.category} readOnly />
             </label>
             <br />
             <label>
