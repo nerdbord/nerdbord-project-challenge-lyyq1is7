@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useState } from "react";
 import { analyzeReceipt, saveReceipt } from "../actions/receipt"; // Upewnij się, że ścieżka jest poprawna
-
+import { useSession } from "@clerk/nextjs";
 export const ReceiptAnalyzer = () => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<{ expense: any } | null>(null);
@@ -14,7 +14,6 @@ export const ReceiptAnalyzer = () => {
       reader.onloadend = () => {
         setImage(reader.result as string | null);
       };
-      console.log(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -47,8 +46,11 @@ export const ReceiptAnalyzer = () => {
   return (
     <div>
       <h1>Receipt Analyzer</h1>
+      {image && <img src={image} alt="Receipt" />}
       <input type="file" accept="image/*" onChange={handleImageChange} />
+
       <button onClick={handleAnalyzeReceipt}>Analyze Receipt</button>
+
       {loading && <p>Analyzing...</p>}
       {msg && <p>{msg}</p>}
 

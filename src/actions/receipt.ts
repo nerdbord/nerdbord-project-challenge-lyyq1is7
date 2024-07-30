@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { currentUser } from "@clerk/nextjs/server";
 
 const CATEGORIES = [
   "Clothes",
@@ -91,6 +92,13 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
 export async function saveReceipt(receiptData: any): Promise<string> {
   try {
+    const user = await currentUser();
+    const userId = user?.id;
+
+    if (!user || !user.id) {
+      throw new Error("No authenticated user found.");
+    }
+
     const receipt = await prisma.receipts.create({
       data: {
         date: receiptData.date || "N/A",
@@ -99,7 +107,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
         total: receiptData.total || "N/A",
         category: receiptData.category || "Other",
         image: receiptData.image || "",
-        //userId: userId || null, // Assuming userId is provided
+        //userId: receiptData.userId,
       },
     });
 
@@ -113,6 +121,9 @@ export async function saveReceipt(receiptData: any): Promise<string> {
 export async function fetchExpenses() {
   try {
     const expenses = await prisma.receipts.findMany();
+    if (!expenses) {
+      throw new Error("No expenses found");
+    }
     return expenses;
   } catch (error) {
     console.error("Failed to load expenses:", error);

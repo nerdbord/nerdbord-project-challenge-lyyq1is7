@@ -1,21 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ReceiptAnalyzer } from "./ReceiptAnalyzer";
 import { fetchExpenses } from "@/actions/receipt";
 
 export const Expenses = () => {
-  const { session } = useSession();
-  console.log(session);
   const [expenses, setExpenses] = useState<
     { store: string; total: number; date: string }[]
   >([]);
 
   useEffect(() => {
     async function loadExpenses() {
-      const expenses = await fetchExpenses();
-      setExpenses(expenses);
+      const rawExpenses = await fetchExpenses();
+
+      const transformedExpenses = rawExpenses.map((expense) => ({
+        store: expense.store ?? "Unknown Store",
+        total: expense.total ? parseFloat(expense.total) : 0,
+        date: expense.date ?? "Unknown Date",
+      }));
+
+      setExpenses(transformedExpenses);
     }
     loadExpenses();
   }, []);
@@ -26,10 +31,10 @@ export const Expenses = () => {
         {expenses.map((expense, index) => (
           <li key={index}>
             <p>
-              <strong>Description:</strong> {expense.store}
+              <strong>Store:</strong> {expense.store}
             </p>
             <p>
-              <strong>Amount:</strong> {expense.total}
+              <strong>Total:</strong> {expense.total}
             </p>
             <p>
               <strong>Date:</strong> {expense.date}

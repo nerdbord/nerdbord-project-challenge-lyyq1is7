@@ -1,15 +1,17 @@
 import React from "react";
 import { Expenses } from "@/components/Expenses";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {
-  const { userId } = auth();
   const user = await currentUser();
 
+  console.log(user);
   return (
     <div>
       {user ? (
         <>
+          <p>Hello, {user.firstName} ! 💜</p>
+
           <h1>Expenses</h1>
           <Expenses />
         </>
