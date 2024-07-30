@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
+import { checkUserInDatabase } from "./user";
 
 const CATEGORIES = [
   "Clothes",
@@ -92,10 +93,10 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
 export async function saveReceipt(receiptData: any): Promise<string> {
   try {
-    const user = await currentUser();
-    const userId = user?.id;
+    // Sprawdź lub utwórz użytkownika w bazie danych
+    const prismaUser = await checkUserInDatabase();
 
-    if (!user || !user.id) {
+    if (!prismaUser || !prismaUser.id) {
       throw new Error("No authenticated user found.");
     }
 
@@ -107,7 +108,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
         total: receiptData.total || "N/A",
         category: receiptData.category || "Other",
         image: receiptData.image || "",
-        //userId: receiptData.userId,
+        userId: prismaUser.id,
       },
     });
 
@@ -120,10 +121,20 @@ export async function saveReceipt(receiptData: any): Promise<string> {
 
 export async function fetchExpenses() {
   try {
-    const expenses = await prisma.receipts.findMany();
-    if (!expenses) {
-      throw new Error("No expenses found");
+    const prismaUser = await checkUserInDatabase();
+
+    if (!prismaUser || !prismaUser.id) {
+      throw new Error("Authenticated user not found or has no ID.");
     }
+
+    const expenses = await prisma.receipts.findMany({
+      where: { userId: prismaUser.id },
+    });
+
+    if (expenses.length === 0) {
+      throw new Error("No expenses found for this user.");
+    }
+
     return expenses;
   } catch (error) {
     console.error("Failed to load expenses:", error);
