@@ -21,7 +21,7 @@ export async function checkUserInDatabase() {
 
       return existingUser;
     } else {
-      throw new Error("No authenticated user found.");
+      return null;
     }
   } catch (error) {
     console.error("Error checking/creating user:", error);

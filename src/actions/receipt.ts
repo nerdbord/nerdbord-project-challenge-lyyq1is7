@@ -131,8 +131,8 @@ export async function fetchExpenses() {
       where: { userId: prismaUser.id },
     });
 
-    if (expenses.length === 0) {
-      throw new Error("No expenses found for this user.");
+    if (!expenses) {
+      throw new Error("No expenses found for the user.");
     }
 
     return expenses;
