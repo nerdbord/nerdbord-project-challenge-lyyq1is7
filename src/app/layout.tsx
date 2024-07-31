@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html data-theme="light" lang="en">
         <body>
           <main className="app">
             {/*        <SignedOut>
