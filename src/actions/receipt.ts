@@ -65,7 +65,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
     );
 
     const data = await response.json();
-    console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
+    //console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
 
     if (data.choices && data.choices.length > 0) {
       const content = data.choices[0].message.content;
@@ -93,11 +93,11 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
 export async function saveReceipt(receiptData: any): Promise<string> {
   try {
-    // Sprawdź lub utwórz użytkownika w bazie danych
     const prismaUser = await checkUserInDatabase();
 
     if (!prismaUser || !prismaUser.id) {
-      throw new Error("No authenticated user found.");
+      console.log("unauthorised user");
+      return "unauthorised user";
     }
 
     const receipt = await prisma.receipts.create({
@@ -108,7 +108,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
         total: receiptData.total || "N/A",
         category: receiptData.category || "Other",
         image: receiptData.image || "",
-        userId: prismaUser.id,
+        userId: prismaUser?.id,
       },
     });
 
