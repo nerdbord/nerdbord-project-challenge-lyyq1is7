@@ -1,7 +1,9 @@
 import React from "react";
+import styles from "./page.module.css";
 import { Expenses } from "@/components/Expenses";
 import { currentUser } from "@clerk/nextjs/server";
 import { checkUserInDatabase } from "@/actions/user";
+import { Landing } from "@/components/Landing";
 
 export default async function Home() {
   const user = await currentUser();
@@ -13,13 +15,13 @@ export default async function Home() {
     <div>
       {user ? (
         <>
-          <p>Hello, {user.firstName} ! 💜</p>
+          <p>Hello, {(user as any)?.firstName} ! 💜</p>
 
           <h1>Expenses</h1>
           <Expenses />
         </>
       ) : (
-        <p>Landing</p>
+        <Landing />
       )}
     </div>
   );
