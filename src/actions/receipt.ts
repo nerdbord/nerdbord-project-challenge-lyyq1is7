@@ -1,6 +1,5 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
 import { checkUserInDatabase } from "./user";
 
 const CATEGORIES = [
@@ -115,7 +114,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
     return receipt.id;
   } catch (error) {
     console.error("Failed to save analyzed receipt:", error);
-    throw new Error("Failed to save analyzed receipt");
+    throw error;
   }
 }
 

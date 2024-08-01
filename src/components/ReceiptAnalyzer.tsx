@@ -1,6 +1,8 @@
 import React, { ChangeEventHandler, useState } from "react";
 import { analyzeReceipt, saveReceipt } from "../actions/receipt"; // Upewnij się, że ścieżka jest poprawna
 import { useSession } from "@clerk/nextjs";
+import "./styles.css";
+
 export const ReceiptAnalyzer = () => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<{ expense: any } | null>(null);
