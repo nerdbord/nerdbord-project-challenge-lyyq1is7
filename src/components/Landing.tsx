@@ -14,9 +14,7 @@ export const Landing = (props: Props) => {
         użytkownik chciał się zarejestrować i korzystać z niej.
       </p>
       <div>
-        <button className="btn btn-outline btn-primary">
-          Scan your first document
-        </button>
+        <button className="btn">Scan your first document</button>
         <p>
           Already have an account? <span>Login</span>
         </p>
