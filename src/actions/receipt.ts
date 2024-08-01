@@ -179,3 +179,43 @@ export async function fetchExpenseById(id: string) {
     throw error;
   }
 }
+
+export async function updateExpense(
+  id: string,
+  updatedData: any
+): Promise<void> {
+  try {
+    const prismaUser = await checkUserInDatabase();
+
+    if (!prismaUser || !prismaUser.id) {
+      throw new Error("Authenticated user not found or has no ID.");
+    }
+
+    const expense = await prisma.receipts.findUnique({
+      where: { id: id },
+    });
+
+    if (!expense) {
+      throw new Error(`Expense with ID ${id} not found`);
+    }
+
+    if (expense.userId !== prismaUser.id) {
+      throw new Error("Unauthorized to update this expense");
+    }
+
+    await prisma.receipts.update({
+      where: { id: id },
+      data: {
+        date: updatedData.date || expense.date,
+        store: updatedData.store || expense.store,
+        items: updatedData.items || expense.items,
+        total: updatedData.total || expense.total,
+        category: updatedData.category || expense.category,
+        image: updatedData.image || expense.image,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to update expense:", error);
+    throw error;
+  }
+}
