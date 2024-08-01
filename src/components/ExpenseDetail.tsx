@@ -22,6 +22,15 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
 
   const id = params?.id;
 
+  async function fetcher(id: string) {
+    try {
+      const expenses = await fetchExpenseById(id);
+      return expenses;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   useEffect(() => {
     if (id) {
       fetchExpenseById(id)
@@ -85,84 +94,76 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
     <div>
       <h1>Expense Details</h1>
       {editing ? (
-        <form>
-          <label>
-            Store:
-            <input
-              type="text"
-              name="store"
-              value={formData.store}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Total:
-            <input
-              type="text"
-              name="total"
-              value={formData.total}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Date:
-            <input
-              type="text"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Items:
-            <input
-              type="text"
-              name="items"
-              value={formData.items}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-          <label>
-            Category:
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-            />
-          </label>
-          <br />
-
-          <img src={expense.image} alt="Receipt" />
-          <br />
-          <button type="button" onClick={handleSave}>
-            Save
-          </button>
-          <button type="button" onClick={handleEditToggle}>
-            Cancel
-          </button>
-        </form>
+        <div>
+          EDIT RECEIPT
+          <form>
+            <label>
+              Store:
+              <input
+                type="text"
+                name="store"
+                value={formData.store}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Total:
+              <input
+                type="text"
+                name="total"
+                value={formData.total}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Date:
+              <input
+                type="text"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Items:
+              <input
+                type="text"
+                name="items"
+                value={formData.items}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <label>
+              Category:
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </label>
+            <br />
+            <img src={expense.image} alt="Receipt" />
+            <br />
+            <button type="button" onClick={handleSave}>
+              Save
+            </button>
+            <button type="button" onClick={handleEditToggle}>
+              Cancel
+            </button>
+          </form>
+        </div>
       ) : (
         <div>
-          <p>
-            <strong>Store:</strong> {expense.store}
-          </p>
-          <p>
-            <strong>Total:</strong> {expense.total}
-          </p>
-          <p>
-            <strong>Date:</strong> {expense.date}
-          </p>
-          <p>
-            <strong>Items:</strong> {expense.items}
-          </p>
-          <p>
-            <strong>Category:</strong> {expense.category}
-          </p>
+          <p>Store:{expense.store}</p>
+          <p>Total:{expense.total}</p>
+          <p>Date:{expense.date}</p>
+          <p>Items: {expense.items}</p>
+          <p>Category:{expense.category}</p>
           {expense.image && <img src={expense.image} alt="Receipt" />}
           <br />
           <button onClick={handleEditToggle}>Edit</button>
