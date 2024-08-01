@@ -45,7 +45,11 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
               }
             }
               Match the categories from the table: ${CATEGORIES.join(", ")}.
-              If any of the data is not included in the receipt, enter NO DATA. If the photo is too bright, too dark or has unreadable text, return a message with an explanation.
+              If any of the data is not included in the receipt, enter NO DATA. If the photo is too bright or too dark or has unreadable text or is not a receipt return a JSON with an explanation:
+            {
+              "error": {
+                "message": "explanation of the problem"
+            }
               `,
             },
             {
@@ -64,6 +68,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
     );
 
     const data = await response.json();
+    //console.log("DATA => ", data);
     //console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
 
     if (data.choices && data.choices.length > 0) {
@@ -86,7 +91,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
     }
   } catch (error) {
     console.error("Error analyzing receipt:", error);
-    throw new Error("Error analyzing receipt");
+    throw error;
   }
 }
 
@@ -137,6 +142,40 @@ export async function fetchExpenses() {
     return expenses;
   } catch (error) {
     console.error("Failed to load expenses:", error);
-    throw new Error("Failed to load expenses");
+    throw error;
+  }
+}
+
+export async function deleteExpense(id: string): Promise<void> {
+  try {
+    const prismaUser = await checkUserInDatabase();
+
+    if (!prismaUser || !prismaUser.id) {
+      throw new Error("Authenticated user not found or has no ID.");
+    }
+
+    await prisma.receipts.delete({
+      where: { id, userId: prismaUser.id },
+    });
+  } catch (error) {
+    console.error("Failed to delete expense:", error);
+    throw error;
+  }
+}
+
+export async function fetchExpenseById(id: string) {
+  try {
+    const expense = await prisma.receipts.findUnique({
+      where: { id: id },
+    });
+
+    if (!expense) {
+      throw new Error(`Expense with ID ${id} not found`);
+    }
+
+    return expense;
+  } catch (error) {
+    console.error("Failed to fetch expense:", error);
+    throw error;
   }
 }

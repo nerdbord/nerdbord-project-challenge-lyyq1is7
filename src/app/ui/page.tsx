@@ -1,12 +1,13 @@
-import Carousel from "@/components/Carousel";
-import ExpenseItem from "@/components/ExpenseItem";
-import Header from "@/components/Header";
-import Separator from "@/components/Separator";
+import Carousel from "@/components/ui/Carousel";
+import ExpenseItem from "@/components/ui/ExpenseItem";
+import Header from "@/components/ui/Header";
+import Separator from "@/components/ui/Separator";
 
 export default function Page() {
   return (
     <div className="p-10">
       <Header />
+      <button className="btn btn-primary">One</button>
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>
