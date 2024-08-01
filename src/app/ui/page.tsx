@@ -1,11 +1,15 @@
-import Carousel from "@/components/Carousel";
-import ExpenseItem from "@/components/ExpenseItem";
-import Header from "@/components/Header";
-import Separator from "@/components/Separator";
+import Carousel from "@/components/ui/Carousel";
+import CurrentMonthBox from "@/components/ui/CurrentMonthBox";
+import ExpenseItem from "@/components/ui/ExpenseItem";
+import Header from "@/components/ui/Header";
+import Separator from "@/components/ui/Separator";
+import WelcomeBox from "@/components/ui/WelcomeBox";
 
 export default function Page() {
   return (
-    <div className="p-10">
+    <div className="ui-container">
+      <WelcomeBox />
+      <CurrentMonthBox />
       <Header />
       <h1>Your last expenses</h1>
       <div>

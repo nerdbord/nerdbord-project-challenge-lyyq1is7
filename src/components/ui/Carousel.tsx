@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Pug from "../assets/pug.png";
-import paragonnMaly from "../assets/paragonnMaly.jpg";
-import par from "../assets/par.webp";
+import Pug from "../../assets/pug.png";
+import paragonnMaly from "../../assets/paragonnMaly.jpg";
+import par from "../../assets/par.webp";
 
 type Props = {}
 const Carousel = (props: Props) => {
