@@ -38,7 +38,8 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
               "expense": {
                 "date": "date of purchase"
                 "store": "store name",
-                "total": "sum of money spent",
+                "total": "sum of money spent as number",
+                "currency": "CURRENCY",
                 "items": "all bought products, separated by commas",
                 "category": "category of expense",
              
@@ -110,6 +111,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
         store: receiptData.store || "N/A",
         items: receiptData.items || "N/A",
         total: receiptData.total || "N/A",
+        currency: receiptData.currency || "N/A",
         category: receiptData.category || "Other",
         image: receiptData.image || "",
         userId: prismaUser?.id,
@@ -216,6 +218,16 @@ export async function updateExpense(
     });
   } catch (error) {
     console.error("Failed to update expense:", error);
+    throw error;
+  }
+}
+
+export async function scanReceipt(base64String: string): Promise<any> {
+  try {
+    const analysis = await analyzeReceipt(base64String);
+    return analysis;
+  } catch (error) {
+    console.error("Error scanning receipt:", error);
     throw error;
   }
 }

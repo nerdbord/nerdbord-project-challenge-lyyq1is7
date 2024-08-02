@@ -114,7 +114,8 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
                 name="total"
                 value={formData.total}
                 onChange={handleChange}
-              />
+              />{" "}
+              {expense.currency}
             </label>
             <br />
             <label>
@@ -160,7 +161,9 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
       ) : (
         <div>
           <p>Store:{expense.store}</p>
-          <p>Total:{expense.total}</p>
+          <p>
+            Total:{expense.total} {expense.currency}
+          </p>
           <p>Date:{expense.date}</p>
           <p>Items: {expense.items}</p>
           <p>Category:{expense.category}</p>
