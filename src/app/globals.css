@@ -113,7 +113,7 @@ button {
   display: flex;
   width: 343px;
   height: 212px;
-  padding-bottom: 48px;
+
   gap: 20px;
   opacity: 0px;
   background-color: white;
@@ -126,4 +126,99 @@ button {
   gap: 10px;
   border: 1px 0px 0px 0px;
   opacity: 0px;
+}
+.current-month-container {
+  margin-top: 48px;
+  background-color: aqua;
+}
+
+.current-month-container-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-month-container-item-text {
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+}
+
+.current-month-container-item-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-month-container-card {
+  width: 343px;
+  height: 192px;
+  padding: 24px 0px 0px 0px;
+  gap: 16px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  margin-bottom: 48px;
+}
+
+.current-month-container-card-items-1,
+.current-month-container-card-items-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.current-month-container-card-items-month {
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  text-align: left;
+}
+.current-month-container-card-items-icon-with-number-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 120px;
+  height: 64px;
+  top: 24px;
+  left: 200px;
+  padding: 16px 24px 16px 24px;
+  gap: 16px;
+  border-radius: 180px 0px 0px 0px;
+  opacity: 0px;
+}
+
+.current-month-container-card-items-spends {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+}
+
+.current-month-container-card-items-spends-sum {
+  width: 173px;
+  height: 64px;
+  padding: 16px 24px 16px 24px;
+  gap: 10px;
+  border-radius: 40px;
+  text-align: center;
+
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-all-expenses-title {
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  margin-bottom: 24px;
 }

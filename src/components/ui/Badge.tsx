@@ -6,7 +6,7 @@ type BadgeProps = {
 
 const Badge =({text}: BadgeProps) => {
   return (
-    <div className='badge badge-neutral'>{text}</div>
+    <div className="badge badge-primary badge-lg">{text}</div>
   )
 }
 
