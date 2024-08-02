@@ -221,3 +221,13 @@ export async function updateExpense(
     throw error;
   }
 }
+
+export async function scanReceipt(base64String: string): Promise<any> {
+  try {
+    const analysis = await analyzeReceipt(base64String);
+    return analysis;
+  } catch (error) {
+    console.error("Error scanning receipt:", error);
+    throw error;
+  }
+}
