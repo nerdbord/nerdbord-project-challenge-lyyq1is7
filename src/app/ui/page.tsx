@@ -5,14 +5,22 @@ import Header from "@/components/ui/Header";
 import Separator from "@/components/ui/Separator";
 import WelcomeAllExpensesItem from "@/components/ui/WelcomeAllExpensesItem";
 import WelcomeBox from "@/components/ui/WelcomeBox";
+import ExpensesList from "@/components/ui/ExpensesList";
 import "./../globals.css";
+import { fetchExpenses } from "@/actions/receipt";
 
-export default function Page() {
+export default async function Page() {
+  // const month = 'June 2024';
+  // const sumOfMonth = '320,40 $';
+  const expensesData = await fetchExpenses();
   return (
     <div className="ui-container">
       <WelcomeBox />
       <CurrentMonthBox />
-      <WelcomeAllExpensesItem />
+      {/* <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/>
+      <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/>
+      <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/> */}
+      <ExpensesList expensesData={expensesData} />
       <Header />
       <h1>Your last expenses</h1>
       <div>

@@ -18,6 +18,11 @@ body {
   background-color: #151515;
 }
 
+/* h4, h5 {
+  color: #444444;
+
+} */
+
 a {
   color: inherit;
   text-decoration: none;
@@ -61,6 +66,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 213px;
 }
 
 .welcome-avatar {
@@ -69,7 +75,7 @@ button {
   gap: 0px;
   border-radius: 100px 0px 0px 0px;
   border: 1px 0px 0px 0px;
-  text-align: center;
+  padding: 12px 0px 0px 0px;
 }
 
 .welcome-hamburger {
@@ -132,20 +138,18 @@ button {
 
 .recent-document-img-box-img-wrapper {
   height: 139px;
-  
 }
 .recent-document-img-box-number {
   width: 160px;
   height: 72px;
   padding: 16px 8px 16px 8px;
   /* gap: 16px; */
-  background-color: #CDCDCD;
-  color:#444444;
+  background-color: #cdcdcd;
+  color: #444444;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
 }
 
 .recent-document-img-box-item-number-date {
@@ -155,7 +159,6 @@ button {
   line-height: 16px;
   text-align: right;
   align-self: flex-end;
-  
 }
 
 .recent-document-img-box-item-number-value {
@@ -164,31 +167,33 @@ button {
   font-weight: 500;
   line-height: 24px;
   text-align: right;
-  
 }
 .current-month-container {
   margin-top: 48px;
-  background-color: aqua;
 }
 
 .current-month-container-items {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
 .current-month-container-item-text {
+  color: #444444;
   font-family: Inter;
   font-size: 20px;
   font-weight: 500;
   line-height: 24px;
-  text-align: left;
+  /* text-align: left; */
+  align-content: flex-start;
 }
 
 .current-month-container-item-icons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* text-align: right; */
+  align-content: flex-end;
+  margin-right: 0;
+  color: black;
 }
 
 .current-month-container-card {
@@ -200,11 +205,16 @@ button {
   margin-bottom: 48px;
 }
 
+.current-month-container-items {
+  width: 343px;
+}
+
 .current-month-container-card-items-1,
 .current-month-container-card-items-2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: black;
 }
 
 .current-month-container-card-items-month {
@@ -213,6 +223,7 @@ button {
   font-weight: 500;
   line-height: 32px;
   text-align: left;
+  padding: 24px;
 }
 .current-month-container-card-items-icon-with-number-box {
   display: flex;
@@ -251,11 +262,41 @@ button {
   justify-content: center;
 }
 
+.welcome-all-expenses-box {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
 .welcome-all-expenses-title {
   font-family: Inter;
   font-size: 20px;
   font-weight: 500;
   line-height: 24px;
-  text-align: left;
+  color: #444444;
+
   margin-bottom: 24px;
+}
+.welcome-all-expenses-box-items {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.welcome-all-expenses-box-month {
+  font-size: 18px;
+  font-weight: 500;
+  color: #444444;
+}
+
+.welcome-all-expenses-box-badge-icon {
+  width: 167px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: flex-end;
+  margin-right: 0;
+  
+}
+.welcome-all-expenses-icon-container {
+  margin-right: 0;
 }

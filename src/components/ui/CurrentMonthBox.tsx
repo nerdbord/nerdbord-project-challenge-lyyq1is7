@@ -1,4 +1,6 @@
 import React from "react";
+import { RxDashboard } from "react-icons/rx";
+import { CiShare2 } from "react-icons/ci";
 
 const CurrentMonthBox = () => {
   return (
@@ -6,7 +8,7 @@ const CurrentMonthBox = () => {
       <div className="current-month-container-items">
         <h4 className="current-month-container-item-text">Current month</h4>
         <span className="current-month-container-item-icons">
-          share icon
+          <CiShare2 />
         </span>
       </div>
       <div className="current-month-container-card">
@@ -15,12 +17,14 @@ const CurrentMonthBox = () => {
             Jully 2024
           </h3>
           <ul className="current-month-container-card-items-icon-with-number-box">
-            <li>dashboard icon</li>
+            <li>
+              <RxDashboard />
+            </li>
             <li>20</li>
           </ul>
         </div>
         <div className="current-month-container-card-items-2">
-          <h5 className="current-month-container-card-items-spends">spends:</h5>
+          <div className="current-month-container-card-items-spends">spends:</div>
           <div className="current-month-container-card-items-spends-sum">
             <span>-1800,75 $</span>
           </div>

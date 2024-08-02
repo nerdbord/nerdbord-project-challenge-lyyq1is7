@@ -1,4 +1,5 @@
 import React from "react";
+import { CiShare2 } from "react-icons/ci";
 
 // ALL EXPENSES HEADER
 const Header = () => {
@@ -7,7 +8,7 @@ const Header = () => {
       <div>All expenses</div>
       <div className="flex ">
         <span>ikona</span>
-        <span>share ikona</span>
+        <span><CiShare2 /></span>
       </div>
       <div className="flex bg-white text-black">
         <span>ikona search</span>
