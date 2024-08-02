@@ -12,7 +12,7 @@ const WelcomeBox = () => {
       </header>
       <h3 className="welcome-user">Welcome Karolina</h3>
       <p className="welcome-user-question">What do you want to summarize today?</p>
-      <h4 className="welcome-recent-documents">Recent documents</h4>
+      <h4 className="welcome-recent-documents">Recent documents(2)</h4>
       <RecentDocumentsImage />
     </div>
   );

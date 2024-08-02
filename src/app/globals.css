@@ -47,7 +47,6 @@ button {
   padding-right: 16px;
   gap: 0px;
   border: 1px 0px 0px 0px;
-  opacity: 0px;
   background-color: black;
   color: white;
 }
@@ -56,7 +55,6 @@ button {
   height: 60px;
   padding: 13px 12px 13px 10px;
   gap: 214px;
-  opacity: 0px;
   text-align: center;
 }
 .welcome-header-items {
@@ -71,7 +69,6 @@ button {
   gap: 0px;
   border-radius: 100px 0px 0px 0px;
   border: 1px 0px 0px 0px;
-  opacity: 0px;
   text-align: center;
 }
 
@@ -80,7 +77,6 @@ button {
   height: 48px;
   padding: 12px 0px 0px 0px;
   gap: 0px;
-  opacity: 0px;
 }
 
 .welcome-user {
@@ -111,21 +107,64 @@ button {
 
 .recent-document-img-box {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 343px;
+  margin: 0 auto;
   height: 212px;
-
   gap: 20px;
-  opacity: 0px;
+  color: black;
+}
+
+.recent-document-img-box-item-img-and-box {
+  width: 162px;
+  height: 212px;
+  padding: 28px 0px 28px 0px;
+  /* gap: 10px; */
+  border: 1px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   background-color: white;
 }
 
-.recent-document-img-box-item {
-  width: 162px;
-  height: 212px;
-  padding: 28px 15px 28px 15px;
-  gap: 10px;
-  border: 1px 0px 0px 0px;
-  opacity: 0px;
+.recent-document-img-box-img-wrapper {
+  height: 139px;
+  
+}
+.recent-document-img-box-number {
+  width: 160px;
+  height: 72px;
+  padding: 16px 8px 16px 8px;
+  /* gap: 16px; */
+  background-color: #CDCDCD;
+  color:#444444;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+}
+
+.recent-document-img-box-item-number-date {
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: right;
+  align-self: flex-end;
+  
+}
+
+.recent-document-img-box-item-number-value {
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: right;
+  
 }
 .current-month-container {
   margin-top: 48px;
@@ -157,8 +196,7 @@ button {
   height: 192px;
   padding: 24px 0px 0px 0px;
   gap: 16px;
-  border: 1px 0px 0px 0px;
-  opacity: 0px;
+  border: 1px solid black;
   margin-bottom: 48px;
 }
 
@@ -188,7 +226,6 @@ button {
   padding: 16px 24px 16px 24px;
   gap: 16px;
   border-radius: 180px 0px 0px 0px;
-  opacity: 0px;
 }
 
 .current-month-container-card-items-spends {
