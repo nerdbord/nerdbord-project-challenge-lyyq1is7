@@ -120,7 +120,8 @@ export const ReceiptAnalyzer = ({
                 value={editedExpense.total}
                 onChange={handleChange}
                 readOnly={!isEditing}
-              />
+              />{" "}
+              {editedExpense.currency}
             </label>
             <br />
             <label>

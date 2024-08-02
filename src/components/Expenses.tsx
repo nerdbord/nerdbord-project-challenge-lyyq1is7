@@ -75,7 +75,7 @@ export const Expenses = () => {
                   <strong>Store:</strong> {expense.store}
                 </p>
                 <p>
-                  <strong>Total:</strong> {expense.total}
+                  <strong>Total:</strong> {expense.total} {expense.currency}
                 </p>
                 <p>
                   <strong>Date:</strong> {expense.date}
@@ -104,6 +104,9 @@ export const Expenses = () => {
           Next
         </button>
       </div>
+      <ReceiptAnalyzer
+        onAddExpense={() => mutate("expenses", fetcher, false)}
+      />
     </div>
   );
 };

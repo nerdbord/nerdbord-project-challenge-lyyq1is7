@@ -26,7 +26,8 @@ model Receipts {
   date          String?
   store         String?
   items         String?
-  total         String?
+  total         Int?
+  currency      String?
   category      String?
   createdAt     DateTime @default(now())
   userId        String?
