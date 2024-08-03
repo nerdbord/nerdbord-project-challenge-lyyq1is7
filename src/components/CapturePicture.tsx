@@ -25,7 +25,7 @@ export const CapturePicture = (props: Props) => {
       </div>
 
       {/* Footer */}
-      <div className="flex flex-col gap-4 pt-2 justify-center items-center  w-full">
+      <div className="flex flex-col gap-4 pt-2 justify-center items-center bg-grey-light w-full">
         <div className="flex gap-12 items-center w-full justify-evenly">
           <button className="round-button h-12 w-12 flex justify-center items-center">
             <RiImageLine className="h-6 w-auto" />
