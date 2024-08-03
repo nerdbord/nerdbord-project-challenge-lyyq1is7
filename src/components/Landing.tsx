@@ -1,7 +1,8 @@
 import React from "react";
 import Pug from "../assets/pug.png";
 import Image from "next/image";
-import { SignInButton, ClerkProvider } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
+import { ScanButton } from "./ScanButton";
 
 type Props = {};
 
@@ -20,7 +21,7 @@ export const Landing = (props: Props) => {
       </div>
 
       <div className="flex flex-col gap-5 items-center">
-        <button className="btn btn-neutral">Scan your first document</button>
+        <ScanButton />
         <p className="text-xs font-medium text-gray-500">
           Already have an account?{" "}
           {SignInButton ? (
