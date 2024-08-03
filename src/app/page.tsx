@@ -11,7 +11,7 @@ export default async function Home() {
   //console.log(prisma_user);
 
   return (
-    <div className=" overflow-y-auto">
+    <div className="overflow-y-auto p-4">
       {!user ? (
         <>
           {/*         <p>Hello, {(user as any)?.firstName} ! 💜</p> */}

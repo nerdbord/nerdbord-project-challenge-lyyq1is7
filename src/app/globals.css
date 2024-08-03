@@ -11,7 +11,7 @@
 html {
   max-width: 100vw;
   overflow: hidden;
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -33,9 +33,8 @@ button {
 }
 
 .app {
-  max-width: 430px;
+  max-width: 375px;
   height: 100dvh;
-  padding: 16px;
   background-color: white;
 }
 .ui-container {
@@ -299,4 +298,45 @@ button {
 }
 .welcome-all-expenses-icon-container {
   margin-right: 0;
+
+.grey-color {
+  color: #444;
+}
+
+.grey-light-color {
+  color: #cdcdcd;
+}
+
+.blue-color {
+  color: #0647ee;
+}
+
+.bg-grey-light {
+  background-color: #cdcdcd;
+}
+
+.round-button {
+  border-radius: 50%;
+  background-color: #cdcdcd;
+}
+
+.test {
+  border: 1px solid pink;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ensure scrolling is still possible */
+.scrollbar-hidden {
+  overflow-y: scroll;
+
 }
