@@ -26,12 +26,12 @@ export default function RootLayout({
       <html className={inter.className} data-theme="light" lang="en">
         <body>
           <main className="app">
-            <SignedOut>
+            {/*       <SignedOut>
               <SignInButton />
             </SignedOut>
             <SignedIn>
               <UserButton />
-            </SignedIn>
+            </SignedIn>{" "} */}
             {children}
           </main>
         </body>
