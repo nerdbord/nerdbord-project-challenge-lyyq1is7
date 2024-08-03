@@ -12,7 +12,7 @@ export default async function Home() {
 
   return (
     <div className=" overflow-y-auto">
-      {user ? (
+      {!user ? (
         <>
           {/*         <p>Hello, {(user as any)?.firstName} ! 💜</p> */}
           <Expenses />

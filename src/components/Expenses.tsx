@@ -14,7 +14,7 @@ interface Expense {
   store: string | null;
   items: string | null;
   total: number | null;
-  currency: string | null;
+  currency?: string | null;
   category: string | null;
   createdAt: Date;
   userId: string | null;
@@ -73,7 +73,7 @@ export const Expenses: React.FC = () => {
       Date: expense.date || "N/A",
       Store: expense.store || "N/A",
       Items: expense.items || "N/A",
-      Total: expense.total !== null ? expense.total.toString() : "N/A",
+      Total: expense.total || "N/A",
       Currency: expense.currency || "N/A",
       Category: expense.category || "N/A",
     }));

@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import WelcomeAllExpensesItem from "./WelcomeAllExpensesItem";
+
 type ExpensesListProps = {
   expensesData: {
     // month: string;

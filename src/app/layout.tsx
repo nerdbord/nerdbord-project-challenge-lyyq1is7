@@ -26,6 +26,7 @@ export default function RootLayout({
       <html className={inter.className} data-theme="light" lang="en">
         <body>
           <main className="app">
+            <SignedOut>
               <SignInButton />
             </SignedOut>
             <SignedIn>
