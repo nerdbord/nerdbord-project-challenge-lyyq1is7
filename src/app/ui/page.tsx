@@ -22,6 +22,7 @@ export default async function Page() {
       <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/> */}
       <ExpensesList expensesData={expensesData} />
       <Header />
+      <button className="btn btn-primary">One</button>
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>

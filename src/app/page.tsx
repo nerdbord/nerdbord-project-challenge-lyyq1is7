@@ -7,17 +7,14 @@ import { Landing } from "@/components/Landing";
 
 export default async function Home() {
   const user = await currentUser();
-
-  const prisma_user = await checkUserInDatabase();
-  console.log(prisma_user);
+  //const prisma_user = await checkUserInDatabase();
+  //console.log(prisma_user);
 
   return (
-    <div>
+    <div className=" overflow-y-auto">
       {user ? (
         <>
-          <p>Hello, {(user as any)?.firstName} ! 💜</p>
-
-          <h1>Expenses</h1>
+          {/*         <p>Hello, {(user as any)?.firstName} ! 💜</p> */}
           <Expenses />
         </>
       ) : (

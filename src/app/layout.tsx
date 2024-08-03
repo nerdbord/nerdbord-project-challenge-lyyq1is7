@@ -23,15 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html data-theme="light" lang="en">
+      <html className={inter.className} data-theme="light" lang="en">
         <body>
           <main className="app">
-                   {/* <SignedOut>
               <SignInButton />
             </SignedOut>
             <SignedIn>
               <UserButton />
-            </SignedIn> */}
+            </SignedIn>
             {children}
           </main>
         </body>

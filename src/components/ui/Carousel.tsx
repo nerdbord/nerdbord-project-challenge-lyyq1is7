@@ -5,6 +5,7 @@ import paragonnMaly from "../../assets/paragonnMaly.jpg";
 import par from "../../assets/par.webp";
 
 type Props = {}
+
 const Carousel = (props: Props) => {
   return (
     <>
@@ -37,7 +38,7 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-              <Image
+                <Image
                   src={paragonnMaly}
                   alt="Paragon"
                   width={500}
@@ -60,7 +61,7 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-                 <Image
+                <Image
                   src={paragonnMaly}
                   alt="Paragon"
                   width={500}
@@ -83,7 +84,7 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-              <Image
+                <Image
                   src={paragonnMaly}
                   alt="Paragon"
                   width={500}
@@ -129,7 +130,7 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-              <Image
+                <Image
                   src={paragonnMaly}
                   alt="Paragon"
                   width={500}
