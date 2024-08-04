@@ -58,33 +58,31 @@ export const CapturePicture = (props: Props) => {
       {/* Camera Section */}
       <div className="flex-grow bg-black text-white flex items-center justify-center w-full">
         {result ? (
-          <div className="bg-gray-100 text-black p-4 max-w-full max-h-full">
-            {result.error ? (
-              <p>{result.error}</p>
-            ) : (
-              <div>
-                <h2 className="text-xl font-bold">Analysis Result</h2>
-                <p>
-                  <strong>Date:</strong> {result.expense?.date || "N/A"}
-                </p>
-                <p>
-                  <strong>Store:</strong> {result.expense?.store || "N/A"}
-                </p>
-                <p>
-                  <strong>Total:</strong> {result.expense?.total || "N/A"}
-                </p>
-                <p>
-                  <strong>Currency:</strong> {result.expense?.currency || "N/A"}
-                </p>
-                <p>
-                  <strong>Items:</strong> {result.expense?.items || "N/A"}
-                </p>
-                <p>
-                  <strong>Category:</strong> {result.expense?.category || "N/A"}
-                </p>
-              </div>
-            )}
-          </div>
+          result.error ? (
+            <p>{result.error.message}</p>
+          ) : (
+            <div className="bg-gray-100 text-black p-4 max-w-full max-h-full">
+              <h2 className="text-xl font-bold">Analysis Result</h2>
+              <p>
+                <strong>Date:</strong> {result.expense?.date || "N/A"}
+              </p>
+              <p>
+                <strong>Store:</strong> {result.expense?.store || "N/A"}
+              </p>
+              <p>
+                <strong>Total:</strong> {result.expense?.total || "N/A"}
+              </p>
+              <p>
+                <strong>Currency:</strong> {result.expense?.currency || "N/A"}
+              </p>
+              <p>
+                <strong>Items:</strong> {result.expense?.items || "N/A"}
+              </p>
+              <p>
+                <strong>Category:</strong> {result.expense?.category || "N/A"}
+              </p>
+            </div>
+          )
         ) : image ? (
           <img
             src={image}
