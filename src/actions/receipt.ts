@@ -34,7 +34,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
           messages: [
             {
               role: "system",
-              content: `       You are a personal financial assistant. Your task is to analyze  the receipt photo from provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
+              content: `You are a personal financial assistant. Your task is to analyze  the receipt photo from provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
             Answer ONLY by filling out the JSON structure correctly:
             {
               "expense": {
@@ -71,8 +71,8 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
     );
 
     const data = await response.json();
-    //console.log("DATA => ", data);
-    //console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
+    console.log("DATA => ", data);
+    console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
 
     if (data.choices && data.choices.length > 0) {
       const content = data.choices[0].message.content;

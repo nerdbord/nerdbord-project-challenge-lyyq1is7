@@ -7,6 +7,7 @@ import { fetchExpenses, deleteExpense } from "@/actions/receipt";
 import { ExpenseItem } from "./ExpenseItem";
 import { DateFilter } from "./DateFilter";
 import { ReportGenerator } from "./RaportGenerator";
+import ReceiptAnalyzer from "./ReceiptAnalyzer";
 
 export interface Expense {
   id: string;
@@ -101,6 +102,10 @@ export const Expenses: React.FC = () => {
     },
     {}
   );
+  const handleAddExpense = async (newExpense: any) => {
+    mutate([...data, newExpense], false);
+    await mutate("expenses", fetcher, false);
+  };
 
   return (
     <div className="h-screen overflow-y-auto scrollbar-hidden">
