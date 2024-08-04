@@ -6,10 +6,13 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Ai Expense Tracker App",
@@ -23,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html className={inter.className} data-theme="light" lang="en">
+      <html className={roboto.className} data-theme="light" lang="en">
         <body>
           <main className="app">
             {/*       <SignedOut>

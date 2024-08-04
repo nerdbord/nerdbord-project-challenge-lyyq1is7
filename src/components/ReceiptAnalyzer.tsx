@@ -63,7 +63,7 @@ export const ReceiptAnalyzer = ({
   const handleCancelEdit = () => {
     setIsEditing(false);
     if (result) {
-      setEditedExpense(result.expense); // Reset editedExpense to original analysis result
+      setEditedExpense(result.expense);
     }
   };
 
