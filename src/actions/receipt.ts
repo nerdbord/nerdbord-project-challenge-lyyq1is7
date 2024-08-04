@@ -79,10 +79,22 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
     if (data.choices && data.choices.length > 0) {
       const content = data.choices[0].message.content;
+
       try {
-        return JSON.parse(content);
+        // Attempt to sanitize and safely parse the JSON content
+        const sanitizedContent = content
+          .replace(/[`‘’“”]/g, '"') // Replace non-standard quotes
+          .replace(/\\u([0-9A-Fa-f]{4})/g, (match: any, grp: string) => {
+            return String.fromCharCode(parseInt(grp, 16)); // Convert Unicode to characters
+          })
+          .replace(/[\u0000-\u0019]+/g, ""); // Remove control characters
+
+        const parsedContent = JSON.parse(sanitizedContent);
+        console.log("Parsed JSON content:", parsedContent);
+        return parsedContent;
       } catch (parseError) {
         console.error("Error parsing JSON content:", content);
+        console.error("Detailed error:", parseError);
         throw new Error("Failed to parse response content from GPT-4o model");
       }
     } else {

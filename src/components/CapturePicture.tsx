@@ -1,21 +1,63 @@
 "use client";
-import React, { useState, ChangeEventHandler } from "react";
+import React, { useState, useRef, useEffect, ChangeEventHandler } from "react";
 import { RiImageLine, RiSearchLine, RiFlashlightLine } from "react-icons/ri";
 import { LensIcon } from "./icons/LensIcon";
 import { GoBackBtn } from "./GoBackBtn";
 import { analyzeReceipt, saveReceipt } from "../actions/receipt";
+import { ReceiptDetails } from "./ScannedReceipt";
 
 type Props = {};
 
 export const CapturePicture = (props: Props) => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<any | null>(null);
-  const [analyzing, setAnalyzing] = useState<any | null>(null);
+  const [analyzing, setAnalyzing] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    // Request the user's camera
+    if (videoRef.current) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          videoRef.current!.srcObject = stream;
+          videoRef.current!.play();
+        })
+        .catch((err) => {
+          console.error("Failed to access camera:", err);
+        });
+    }
+  }, []);
 
   const handleCancel = () => {
     setImage(null);
     setResult(null);
     setAnalyzing(false);
+    if (videoRef.current) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  const captureImage = () => {
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
+      if (context) {
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
+        context.drawImage(
+          videoRef.current,
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
+        );
+        setImage(canvasRef.current.toDataURL("image/png"));
+      }
+    }
   };
 
   const handleImageChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -62,38 +104,18 @@ export const CapturePicture = (props: Props) => {
       </div>
 
       {/* Camera Section */}
-      <div className="flex-grow bg-black text-white flex items-center justify-center w-full">
+      <div className="flex-grow flex items-center justify-center w-full relative">
         {result ? (
           result.error ? (
-            <div className=" p-4 max-w-full max-h-full">
+            <div className="p-4 max-w-full max-h-full">
               An error occurred while analyzing the receipt.
               <p>{result.error.message}</p>
             </div>
           ) : (
-            <div className=" p-4 max-w-full max-h-full">
-              <h2 className="text-xl font-bold">Analysis Result</h2>
-              <p>
-                <strong>Date:</strong> {result.expense?.date || "N/A"}
-              </p>
-              <p>
-                <strong>Store:</strong> {result.expense?.store || "N/A"}
-              </p>
-              <p>
-                <strong>Total:</strong> {result.expense?.total || "N/A"}
-              </p>
-              <p>
-                <strong>Currency:</strong> {result.expense?.currency || "N/A"}
-              </p>
-              <p>
-                <strong>Items:</strong> {result.expense?.items || "N/A"}
-              </p>
-              <p>
-                <strong>Category:</strong> {result.expense?.category || "N/A"}
-              </p>
-            </div>
+            <ReceiptDetails result={result} />
           )
         ) : analyzing ? (
-          <div>Analyzing...</div>
+          <div>Analyzing text...</div>
         ) : image ? (
           <img
             src={image}
@@ -101,7 +123,24 @@ export const CapturePicture = (props: Props) => {
             className="max-h-full max-w-full p-4"
           />
         ) : (
-          <div>Uploading...</div>
+          <>
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              autoPlay
+              playsInline
+              muted
+            />
+            <canvas ref={canvasRef} className="hidden" />
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+              <button
+                onClick={captureImage}
+                className="rounded-full h-16 w-16 flex justify-center items-center bg-violet-700 text-white"
+              >
+                <LensIcon />
+              </button>
+            </div>
+          </>
         )}
       </div>
 
@@ -111,16 +150,16 @@ export const CapturePicture = (props: Props) => {
           <div className="flex items-center w-full justify-evenly pt-2">
             <button
               onClick={handleCancel}
-              className="rounded-full  w-32 px-8 py-4 border border-violet-900 text-violet-900"
+              className="rounded-full flex items-center justify-center w-32 px-8 py-4 border border-violet-900 text-violet-900"
             >
-              <p className="px-2 text-center">Cancel</p>
+              <p className="px-2">Cancel</p>
             </button>
 
             <button
               onClick={handleAnalyzeReceipt}
-              className="rounded-full text-center w-32 px-8 py-4 border border-violet-900 bg-violet-900 text-white"
+              className="rounded-full w-32 px-8 py-4 border border-violet-900 bg-violet-900 text-white flex items-center justify-center"
             >
-              <p className="px-2 text-center">Analyze</p>
+              <p className="px-2">Analyze</p>
             </button>
           </div>
         )}
@@ -128,16 +167,16 @@ export const CapturePicture = (props: Props) => {
           <div className="flex items-center w-full justify-evenly pt-2">
             <button
               onClick={handleCancel}
-              className="rounded-full text-center w-32 px-8 py-4  border border-violet-900 text-violet-900"
+              className="rounded-full w-32 px-8 py-4 border border-violet-900 text-violet-900 flex items-center justify-center"
             >
-              <p className="px-2 text-center">Cancel</p>
+              <p className="px-2">Cancel</p>
             </button>
 
             <button
               onClick={handleSaveReceipt}
-              className="rounded-full text-center w-32 px-8 py-4  border border-violet-900 bg-violet-900 text-white"
+              className="rounded-full w-32 px-8 py-4 border border-violet-900 bg-violet-900 text-white flex items-center justify-center"
             >
-              <p className="px-2 text-center">Save</p>
+              <p className="px-2">Save</p>
             </button>
           </div>
         )}
