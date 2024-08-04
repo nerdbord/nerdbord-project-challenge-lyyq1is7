@@ -1,8 +1,9 @@
 import React from 'react'
+import { SeparatorIcon } from '../icons/SeparatorIcon'
 
 const Separator = () => {
   return (
-    <div className='max-w-full'><div className="border-spacing-3">Separator</div></div>
+    <div className='separator-icon-box'><SeparatorIcon /></div>
   )
 }
 
