@@ -30,7 +30,8 @@ async function fetcher(): Promise<Expense[]> {
     const expenses = await fetchExpenses();
     return expenses;
   } catch (error) {
-    throw error;
+    console.error("Error fetching expenses:", error);
+    throw new Error("Failed to fetch expenses.");
   }
 }
 
@@ -103,15 +104,6 @@ export const Expenses: React.FC = () => {
 
   return (
     <div className="h-screen overflow-y-auto scrollbar-hidden">
-      {/*    <div className="mb-4">
-        <DateFilter
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={setStartDate}
-          onEndDateChange={setEndDate}
-        />
-        <ReportGenerator data={data} startDate={startDate} endDate={endDate} />
-      </div> */}
       <div id="filtered-expenses">
         {Object.keys(expensesByMonth).length === 0 ? (
           <p>No expenses found for the selected date range.</p>
@@ -133,5 +125,3 @@ export const Expenses: React.FC = () => {
     </div>
   );
 };
-
-export default Expenses;
