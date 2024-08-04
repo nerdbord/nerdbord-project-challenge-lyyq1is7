@@ -69,9 +69,13 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
       }
     );
 
+    if (!response.ok) {
+      console.error("API request failed with status:", response.status);
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
     const data = await response.json();
-    console.log("DATA => ", data);
-    console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
+    console.log("Received data:", data);
 
     if (data.choices && data.choices.length > 0) {
       const content = data.choices[0].message.content;
@@ -79,7 +83,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
         return JSON.parse(content);
       } catch (parseError) {
         console.error("Error parsing JSON content:", content);
-        throw new Error("Failed to parse response from GPT-4o model");
+        throw new Error("Failed to parse response content from GPT-4o model");
       }
     } else {
       console.error("No valid choices found in the response data:", data);
