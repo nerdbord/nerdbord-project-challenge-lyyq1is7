@@ -3,7 +3,7 @@ import { HiArrowRight } from "react-icons/hi2";
 
 type WelcomeAllExpensesItemProps = {
   date: string | null;
-  total: string | null;
+  total: number | null;
 }
 
 const WelcomeAllExpensesItem: React.FC<WelcomeAllExpensesItemProps> = ({date, total}) => {

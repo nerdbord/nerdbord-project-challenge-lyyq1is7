@@ -10,12 +10,13 @@
 
 html {
   max-width: 100vw;
-  overflow: hidden;
+  /* overflow: hidden; */
   font-family: "Inter", sans-serif;
 }
 
 body {
   background-color: #151515;
+  /* font-family: "Roboto", sans-serif; */
 }
 
 /* h4, h5 {
@@ -51,62 +52,72 @@ button {
   padding-right: 16px;
   gap: 0px;
   border: 1px 0px 0px 0px;
-  background-color: black;
+  background: linear-gradient(
+    180deg,
+    #000 -41.1%,
+    #2c0735 32.12%,
+    #2c0735 99.96%
+  );
   color: white;
+  margin-bottom: 100px;
 }
 .welcome-header-box {
   width: 343px;
-  height: 60px;
-  padding: 13px 12px 13px 10px;
-  gap: 214px;
-  text-align: center;
+  height: 80px;
+  margin-bottom: 16px;
 }
 .welcome-header-items {
+  margin-top: 16px;
+  width: 343px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 213px;
+  gap: 214px;
 }
 
-.welcome-avatar {
-  width: 48px;
-  height: 48px;
-  gap: 0px;
-  border-radius: 100px 0px 0px 0px;
-  border: 1px 0px 0px 0px;
-  padding: 12px 0px 0px 0px;
+.avatar {
+  width: 80px;
+  height: 80px;
 }
 
 .welcome-hamburger {
   width: 48px;
   height: 48px;
-  padding: 12px 0px 0px 0px;
-  gap: 0px;
 }
 
 .welcome-user {
-  font-family: Inter;
+  color: var(--Purplish-White, #f7f5fa);
+
+  font-family: "Roboto", sans-serif;
   font-size: 24px;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 600;
   line-height: 32px;
-  text-align: left;
+
   margin-bottom: 8px;
 }
 
 .welcome-user-question {
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  text-align: left;
   margin-bottom: 48px;
+
+  color: var(--Purplish-White, #f7f5fa);
+
+  /* 🌼 DaisyUI/text-base */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
 }
 .welcome-recent-documents {
-  font-family: Inter;
+  color: var(--Purplish-White, #f7f5fa);
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  line-height: 24px;
-  text-align: left;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
   padding-bottom: 24px;
 }
 
@@ -116,56 +127,77 @@ button {
   justify-content: center;
   width: 343px;
   margin: 0 auto;
+  margin-bottom: 48px;
   height: 212px;
   gap: 20px;
   color: black;
+  object-fit: cover;
 }
+.card.card-compact {
+  max-width: 161px;
+  padding: 0;
+  margin: 0;
+  height: 212px;
+}
+img {
+  object-fit: cover;
+}
+/* .card-compact .card-body  {
+  
+  border-radius: inherit;
+}  */
 
 .recent-document-img-box-item-img-and-box {
-  width: 162px;
-  height: 212px;
-  padding: 28px 0px 28px 0px;
+  width: 151px;
+  height: 211px;
+  /* padding: 28px 0px 28px 0px; */
   /* gap: 10px; */
   border: 1px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  background-color: white;
 }
 
 .recent-document-img-box-img-wrapper {
   height: 139px;
 }
-.recent-document-img-box-number {
-  width: 160px;
-  height: 72px;
-  padding: 16px 8px 16px 8px;
-  /* gap: 16px; */
-  background-color: #cdcdcd;
-  color: #444444;
-  margin: 0 auto;
+
+.card-body {
+  background: #613dc1;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  width: 161px;
+  height: 72px;
 }
 
 .recent-document-img-box-item-number-date {
-  font-family: Inter;
+  color: #f7f5fa;
+
+  /* 🌼 DaisyUI/text-xs */
+  font-family: "Roboto", sans-serif;
   font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  text-align: right;
-  align-self: flex-end;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+
+  margin-right: 0;
 }
 
 .recent-document-img-box-item-number-value {
-  font-family: Inter;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-  text-align: right;
+  color: #f7f5fa;
+
+  /* 🌼 DaisyUI/text-xs */
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+
+  margin-right: 0;
 }
 .current-month-container {
   margin-top: 48px;
@@ -179,29 +211,43 @@ button {
 }
 
 .current-month-container-item-text {
-  color: #444444;
-  font-family: Inter;
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  line-height: 24px;
-  /* text-align: left; */
-  align-content: flex-start;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+}
+
+.number-in-card {
+  color: #181819;
+  text-align: right;
+
+  /* 🌼 DaisyUI/heading-2 */
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
 }
 
 .current-month-container-item-icons {
-  /* text-align: right; */
   align-content: flex-end;
   margin-right: 0;
-  color: black;
+  color: #4c1d95;
 }
 
 .current-month-container-card {
   width: 343px;
-  height: 192px;
+  /* height: 192px; */
   padding: 24px 0px 0px 0px;
   gap: 16px;
-  border: 1px solid black;
   margin-bottom: 48px;
+  border-radius: 8px;
+  border: 1px solid #cbbfdd;
+  background: #f7f5fa;
 }
 
 .current-month-container-items {
@@ -214,15 +260,19 @@ button {
   justify-content: space-between;
   align-items: center;
   color: black;
+  padding-left: 24px;
+  padding-bottom: 24px;
 }
 
 .current-month-container-card-items-month {
-  font-family: Inter;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 32px;
-  text-align: left;
-  padding: 24px;
+  color: #181819;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
 }
 .current-month-container-card-items-icon-with-number-box {
   display: flex;
@@ -231,18 +281,23 @@ button {
 
   width: 120px;
   height: 64px;
-  top: 24px;
-  left: 200px;
+
   padding: 16px 24px 16px 24px;
   gap: 16px;
   border-radius: 180px 0px 0px 0px;
+  font-size: 24px;
 }
 
 .current-month-container-card-items-spends {
-  font-family: Inter;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 24px;
+  color: #181819;
+
+  /* 🌼 DaisyUI/heading-4 */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+  margin-left: 0;
   text-align: left;
 }
 
@@ -251,14 +306,25 @@ button {
   height: 64px;
   padding: 16px 24px 16px 24px;
   gap: 10px;
-  border-radius: 40px;
-  text-align: center;
 
-  background-color: black;
-  color: white;
+  border-radius: 180px;
+  border: 1px solid #2c0735;
+  background: #ede9fe;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.spands-sum-number {
+  color: #2c0735;
+  text-align: center;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
 }
 
 .welcome-all-expenses-box {
@@ -294,7 +360,6 @@ button {
   align-items: center;
   align-content: flex-end;
   margin-right: 0;
-  
 }
 .welcome-all-expenses-icon-container {
   margin-right: 0;
@@ -339,5 +404,4 @@ button {
 /* Ensure scrolling is still possible */
 .scrollbar-hidden {
   overflow-y: scroll;
-
 }

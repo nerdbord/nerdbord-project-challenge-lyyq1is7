@@ -10,8 +10,6 @@ import "./../globals.css";
 import { fetchExpenses } from "@/actions/receipt";
 
 export default async function Page() {
-  // const month = 'June 2024';
-  // const sumOfMonth = '320,40 $';
   const expensesData = await fetchExpenses();
   return (
     <div className="ui-container">
@@ -22,7 +20,6 @@ export default async function Page() {
       <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/> */}
       <ExpensesList expensesData={expensesData} />
       <Header />
-      <button className="btn btn-primary">One</button>
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>

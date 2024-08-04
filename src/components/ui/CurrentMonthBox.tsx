@@ -20,13 +20,13 @@ const CurrentMonthBox = () => {
             <li>
               <RxDashboard />
             </li>
-            <li>20</li>
+            <li className="number-in-card">20</li>
           </ul>
         </div>
         <div className="current-month-container-card-items-2">
           <div className="current-month-container-card-items-spends">spends:</div>
           <div className="current-month-container-card-items-spends-sum">
-            <span>-1800,75 $</span>
+            <span className="spends-sum-number">1800,75 PLN</span>
           </div>
         </div>
       </div>

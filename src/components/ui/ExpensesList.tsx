@@ -4,14 +4,12 @@ import WelcomeAllExpensesItem from "./WelcomeAllExpensesItem";
 
 type ExpensesListProps = {
   expensesData: {
-    // month: string;
-    // sumOfMonth: string;
     id: string;
     image: string | null;
     date: string | null;
     store: string | null;
     items: string | null;
-    total: string | null;
+    total: number | null;
     category: string | null;
     createdAt: Date;
     userId: string | null;
