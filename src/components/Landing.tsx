@@ -1,7 +1,7 @@
 import React from "react";
 import Pug from "../assets/pug.png";
 import Image from "next/image";
-import { SignInButton, ClerkProvider } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 import { ScanButton } from "./ScanButton";
 
 type Props = {};
