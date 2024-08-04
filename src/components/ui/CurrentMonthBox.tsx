@@ -2,7 +2,6 @@ import React from "react";
 import { RxDashboard } from "react-icons/rx";
 import { CiShare2 } from "react-icons/ci";
 import { ArrowRightIcon } from "../icons/ArrowRightIcon";
-import HeaderAllExpenses from "./HeaderAllExpenses";
 
 const CurrentMonthBox = () => {
   return (
@@ -76,7 +75,6 @@ const CurrentMonthBox = () => {
           See all months
         </button>
       </div>
-      
     </div>
   );
 };

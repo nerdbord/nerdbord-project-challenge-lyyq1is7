@@ -488,3 +488,26 @@ font-style: normal;
 font-weight: 600;
 line-height: 24px; /* 150% */
 }
+.search-bar {
+  width: 375px;
+  /* padding: 24px; */
+  gap: 2;
+}
+
+label {
+  width: 100%;
+  padding: 0;
+}
+
+
+.search-icon-in-search {
+  width: 18px;
+  height: 18px;
+  /* padding-right: 15px; */
+}
+
+.filter-icon-in-search {
+  width: 24px;
+  height: 24px;
+  /* padding-right: 12px; */
+}

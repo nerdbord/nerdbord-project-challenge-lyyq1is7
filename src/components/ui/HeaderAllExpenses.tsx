@@ -2,6 +2,7 @@ import React from "react";
 import { ShareIcon } from "../icons/ShareIcon";
 import { BackIcon } from "../icons/BackIcon";
 
+
 // ALL EXPENSES HEADER
 const HeaderAllExpenses = () => {
   return (
@@ -18,11 +19,6 @@ const HeaderAllExpenses = () => {
           <ShareIcon />
         </span>
       </div>
-      {/* <div className="flex bg-white text-black">
-        <span>ikona search</span>
-        <span>Content</span>
-        <span>ikona filter</span>
-      </div> */}
     </header>
   );
 };
