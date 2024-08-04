@@ -2,7 +2,7 @@ import React from "react";
 import { CiShare2 } from "react-icons/ci";
 
 // ALL EXPENSES HEADER
-const Header = () => {
+const HeaderAllExpenses = () => {
   return (
     <header className="flex w-full h-[500px] bg-black text-white py-4">
       <div>All expenses</div>
@@ -20,4 +20,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderAllExpenses;

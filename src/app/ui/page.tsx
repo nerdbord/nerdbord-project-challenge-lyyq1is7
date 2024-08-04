@@ -1,7 +1,7 @@
 import Carousel from "@/components/ui/Carousel";
 import CurrentMonthBox from "@/components/ui/CurrentMonthBox";
 import ExpenseItem from "@/components/ui/ExpenseItem";
-import Header from "@/components/ui/Header";
+import HeaderAllExpenses from "@/components/ui/HeaderAllExpenses";
 import Separator from "@/components/ui/Separator";
 import WelcomeAllExpensesItem from "@/components/ui/WelcomeAllExpensesItem";
 import WelcomeBox from "@/components/ui/WelcomeBox";
@@ -15,11 +15,11 @@ export default async function Page() {
     <div className="ui-container">
       <WelcomeBox />
       <CurrentMonthBox />
-      {/* <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/>
-      <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/>
-      <WelcomeAllExpensesItem month={month} sumOfMonth={sumOfMonth}/> */}
-      <ExpensesList expensesData={expensesData} />
-      <Header />
+      {/* <WelcomeAllExpensesItem date={date} total={total} />
+    <WelcomeAllExpensesItem date={date} total={total} /> />
+    <WelcomeAllExpensesItem date={date} total={total} /> */}
+      {/* <ExpensesList expensesData={expensesData} /> */}
+      {/* <HeaderAllExpenses /> */}
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>

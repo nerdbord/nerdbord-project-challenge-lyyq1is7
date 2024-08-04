@@ -333,11 +333,14 @@ img {
 }
 
 .welcome-all-expenses-title {
-  font-family: Inter;
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: Roboto, sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  line-height: 24px;
-  color: #444444;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
 
   margin-bottom: 24px;
 }
@@ -346,11 +349,13 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 .welcome-all-expenses-box-month {
-  font-size: 18px;
-  font-weight: 500;
-  color: #444444;
+  font-size: 16px;
+  font-weight: 400;
+  color: #181819;
+  font-family: "Roboto", sans-serif;
 }
 
 .welcome-all-expenses-box-badge-icon {
@@ -361,8 +366,39 @@ img {
   align-content: flex-end;
   margin-right: 0;
 }
+.badge-outline {
+  border-radius: 18px;
+  border: 1px solid #2c0735;
+  background: #ede9fe;
+  padding: 12px;
+  color: #2c0735;
+}
 .welcome-all-expenses-icon-container {
   margin-right: 0;
+  color: #2c0735;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+.btn-outline.btn-primary.btn-see-all-months  {
+  border-radius: var(--t--borders-radius-rounded-full, 9999px);
+  border: 1px solid #2c0735;
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/text-sm */
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
 }
 
 .grey-color {

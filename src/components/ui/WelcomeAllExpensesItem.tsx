@@ -1,5 +1,6 @@
 import React from "react";
-import { HiArrowRight } from "react-icons/hi2";
+import { ArrowRightIcon } from "../icons/ArrowRightIcon";
+import { BtnSeeAllMonths } from "./BtnSeeAllMonths";
 
 type WelcomeAllExpensesItemProps = {
   date: string | null;
@@ -13,14 +14,15 @@ const WelcomeAllExpensesItem: React.FC<WelcomeAllExpensesItemProps> = ({date, to
       <div className="welcome-all-expenses-box-items">
         <h5 className="welcome-all-expenses-box-month">{date}</h5>
         <div className="welcome-all-expenses-box-badge-icon">
-          <div className="badge badge-neutral">{total}</div>
+          <div className="badge badge-outline">{total}</div>
           <div className="welcome-all-expenses-icon-container">
             <span>
-              <HiArrowRight />
+              <ArrowRightIcon />
             </span>
           </div>
         </div>
       </div>
+      <BtnSeeAllMonths />
     </div>
   );
 };
