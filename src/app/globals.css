@@ -388,7 +388,7 @@ img {
   margin-bottom: 20px;
 }
 
-.btn-outline.btn-primary.btn-see-all-months  {
+.btn-outline.btn-primary.btn-see-all-months {
   border-radius: var(--t--borders-radius-rounded-full, 9999px);
   border: 1px solid #2c0735;
   color: #2c0735;
@@ -447,7 +447,7 @@ img {
   padding-left: 24px;
   padding-right: 24px;
   height: 50px;
-  background-color: #2C0735;
+  background-color: #2c0735;
 
   margin-top: 100px;
 
@@ -468,7 +468,6 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
 .share-icon {
@@ -481,12 +480,12 @@ img {
   color: #fff;
   margin-left: 8px;
 
-/* 🌼 DaisyUI/heading-4 */
-font-family: "Roboto", sans-serif;
-font-size: 16px;
-font-style: normal;
-font-weight: 600;
-line-height: 24px; /* 150% */
+  /* 🌼 DaisyUI/heading-4 */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
 }
 .search-bar {
   width: 375px;
@@ -499,7 +498,6 @@ label {
   padding: 0;
 }
 
-
 .search-icon-in-search {
   width: 18px;
   height: 18px;
@@ -510,4 +508,22 @@ label {
   width: 24px;
   height: 24px;
   /* padding-right: 12px; */
+}
+
+.modal-export-cancel-btn {
+  color: #6d28d9;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+.modal-export-btn {
+  border-radius: 8px;
+  background: #6d28d9;
+  color: #FAF5FF;
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
 }
