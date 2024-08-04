@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Expense } from "./Expenses"; // Adjust the import path based on your project structure
-
+import { Expense } from "./Expenses";
 interface ExpenseItemProps {
   expense: Expense;
 }
