@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEventHandler } from "react";
+import React, { useState, useEffect, useRef, ChangeEventHandler } from "react";
 import { RiImageLine, RiSearchLine, RiFlashlightLine } from "react-icons/ri";
 import { LensIcon } from "./icons/LensIcon";
 import { GoBackBtn } from "./GoBackBtn";
@@ -10,24 +10,40 @@ type Props = {};
 export const CapturePicture = (props: Props) => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<any | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [analyzing, setAnalyzing] = useState<boolean>(false);
 
   const handleCancel = () => {
     setImage(null);
     setResult(null);
   };
 
-  const handleImageChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImage(null);
+    setResult(null);
+    setUploading(true);
+
+    console.log("UPLOADING => ", true);
+
     const file = event.target.files && event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
+        setUploading(false);
+      };
+      reader.onerror = () => {
+        console.error("Error reading the file");
+        setUploading(false);
       };
       reader.readAsDataURL(file);
+    } else {
+      setUploading(false);
     }
   };
 
   const handleAnalyzeReceipt = async () => {
+    setAnalyzing(true);
     try {
       if (image) {
         const analysis = await analyzeReceipt(image);
@@ -39,6 +55,14 @@ export const CapturePicture = (props: Props) => {
         "Photo unable to be analyzed - take another picture or add manually",
         error
       );
+      setResult({
+        error: {
+          message:
+            "Photo unable to be analyzed. Please try again with a clear receipt image.",
+        },
+      });
+    } finally {
+      setAnalyzing(false);
     }
   };
 
@@ -57,10 +81,14 @@ export const CapturePicture = (props: Props) => {
 
       {/* Camera Section */}
       <div className="flex-grow bg-black text-white flex items-center justify-center w-full">
-        {result ? (
+        {analyzing ? (
+          <p className="text-white">Analyzing...</p>
+        ) : uploading ? (
+          <p className="text-white">Uploading...</p>
+        ) : result ? (
           <div className="bg-gray-100 text-black p-4 max-w-full max-h-full">
             {result.error ? (
-              <p>{result.error}</p>
+              <p>{result.error.message}</p>
             ) : (
               <div>
                 <h2 className="text-xl font-bold">Analysis Result</h2>
