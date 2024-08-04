@@ -1,21 +1,28 @@
 import React from "react";
-import { CiShare2 } from "react-icons/ci";
+import { ShareIcon } from "../icons/ShareIcon";
+import { BackIcon } from "../icons/BackIcon";
 
 // ALL EXPENSES HEADER
 const HeaderAllExpenses = () => {
   return (
-    <header className="flex w-full h-[500px] bg-black text-white py-4">
-      <div>All expenses</div>
-      <div className="flex ">
-        <span>ikona</span>
-        <span><CiShare2 /></span>
+    <header className="header-all-expenses">
+      <div className="header-all-items">
+        <div className="header-all-flex">
+          <span className="back-icon">
+            <BackIcon />
+          </span>
+
+          <h4 className="header-all-expenses-title">All expenses</h4>
+        </div>
+        <span className="share-icon">
+          <ShareIcon />
+        </span>
       </div>
-      <div className="flex bg-white text-black">
+      {/* <div className="flex bg-white text-black">
         <span>ikona search</span>
         <span>Content</span>
         <span>ikona filter</span>
-      </div>
-      
+      </div> */}
     </header>
   );
 };

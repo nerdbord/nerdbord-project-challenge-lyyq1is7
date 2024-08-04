@@ -19,7 +19,7 @@ export default async function Page() {
     <WelcomeAllExpensesItem date={date} total={total} /> />
     <WelcomeAllExpensesItem date={date} total={total} /> */}
       {/* <ExpensesList expensesData={expensesData} /> */}
-      {/* <HeaderAllExpenses /> */}
+      
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>
@@ -36,6 +36,7 @@ export default async function Page() {
       </div>
       <Separator />
       <Carousel />
+      
     </div>
   );
 }
