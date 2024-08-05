@@ -34,26 +34,25 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
           messages: [
             {
               role: "system",
-              content: `       You are a personal financial assistant. Your task is to analyze  the receipt photo from provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
-            Answer ONLY by filling out the JSON structure correctly:
-            {
-              "expense": {
-                "date": "date of purchase"
-                "store": "store name",
-                "total": "sum of money spent as number",
-                "currency": "CURRENCY",
-                "items": "all bought products, separated by commas",
-                "category": "category of expense",
-             
+              content: `You are a personal financial assistant. Your task is to analyze the receipt photo from the provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
+              Answer ONLY by filling out the JSON structure correctly:
+              {
+                "expense": {
+                  "date": "date of purchase",
+                  "store": "store name",
+                  "total": "sum of money spent as number",
+                  "currency": "CURRENCY",
+                  "items": "all bought products, separated by commas",
+                  "category": "category of expense"
+                }
               }
-            }
               Match the categories from the table: ${CATEGORIES.join(", ")}.
               If any of the data is not included in the receipt, enter NO DATA. If the photo is too bright or too dark or has unreadable text or is not a receipt return a JSON with an explanation:
-            {
-              "error": {
-                "message": "explanation of the problem"
-            }
-              `,
+              {
+                "error": {
+                  "message": "explanation of the problem"
+                }
+              }`,
             },
             {
               role: "user",
@@ -70,27 +69,25 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
       }
     );
 
+    if (!response.ok) {
+      console.error("API request failed with status:", response.status);
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
     const data = await response.json();
-    //console.log("DATA => ", data);
-    //console.log("GPT-4o Response:", JSON.stringify(data, null, 2));
+    console.log("Received data:", data);
 
     if (data.choices && data.choices.length > 0) {
       const content = data.choices[0].message.content;
-      const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-      if (jsonMatch && jsonMatch[1]) {
-        try {
-          const parsedContent = JSON.parse(jsonMatch[1]);
-          console.log("Parsed JSON:", JSON.stringify(parsedContent, null, 2));
-          return parsedContent;
-        } catch (error) {
-          console.error("Failed to parse extracted JSON:", error);
-          return { error: "Failed to parse JSON" };
-        }
-      } else {
-        return { error: "No JSON found in response" };
+      try {
+        return JSON.parse(content);
+      } catch (parseError) {
+        console.error("Error parsing JSON content:", content);
+        throw new Error("Failed to parse response content from GPT-4o model");
       }
     } else {
-      throw new Error("Unexpected response format");
+      console.error("No valid choices found in the response data:", data);
+      throw new Error("No valid response from the GPT-4o model");
     }
   } catch (error) {
     console.error("Error analyzing receipt:", error);

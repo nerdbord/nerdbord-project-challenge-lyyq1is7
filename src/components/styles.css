@@ -12,3 +12,44 @@ input {
   justify-content: space-between;
   align-items: center;
 }
+
+.grey-color {
+  color: #444;
+}
+
+.grey-dark-color {
+  color: #181819;
+}
+
+.grey-light-color {
+  color: #cdcdcd;
+}
+
+.neutral-color {
+  color: #fafafa;
+}
+
+.blue-color {
+  color: #0647ee;
+}
+
+.bg-blue-color {
+  background-color: #97dffc;
+}
+
+.bg-grey-light {
+  background-color: #cdcdcd;
+}
+
+.bg-purple-color {
+  background-color: #2c0735;
+}
+
+.round-button {
+  border-radius: 50%;
+  background-color: #cdcdcd;
+}
+
+.test {
+  border: 1px solid pink;
+}

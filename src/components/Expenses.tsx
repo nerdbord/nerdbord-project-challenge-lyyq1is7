@@ -1,12 +1,12 @@
 "use client";
 
 import "./styles.css";
-import React, { useState } from "react";
-import useSWR, { mutate } from "swr";
+import React, { useState, useEffect } from "react";
 import { fetchExpenses, deleteExpense } from "@/actions/receipt";
 import { ExpenseItem } from "./ExpenseItem";
 import { DateFilter } from "./DateFilter";
 import { ReportGenerator } from "./RaportGenerator";
+import ReceiptAnalyzer from "./ReceiptAnalyzer";
 
 export interface Expense {
   id: string;
@@ -25,32 +25,32 @@ interface ExpensesByMonth {
   [key: number]: Expense[];
 }
 
-async function fetcher(): Promise<Expense[]> {
-  try {
-    const expenses = await fetchExpenses();
-    return expenses;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export const Expenses: React.FC = () => {
-  const { data, error } = useSWR<Expense[]>("expenses", fetcher);
+  const [data, setData] = useState<Expense[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
 
-  if (error) return <div>Failed to load expenses: {error.message}</div>;
-  if (!data) return <div>Fetching expenses...</div>;
+  useEffect(() => {
+    const loadExpenses = async () => {
+      try {
+        const expenses = await fetchExpenses();
+        setData(expenses);
+      } catch (error) {
+        console.error("Error fetching expenses:", error);
+        setError("Failed to fetch expenses.");
+      }
+    };
+
+    loadExpenses();
+  }, []);
 
   const handleDeleteExpense = async (id: string) => {
     try {
-      mutate(
-        "expenses",
-        data?.filter((expense) => expense.id !== id) || [],
-        false
+      setData(
+        (prevData) => prevData?.filter((expense) => expense.id !== id) || null
       );
       await deleteExpense(id);
-      await mutate("expenses", fetcher, false);
     } catch (error) {
       console.error("Failed to delete expense:", error);
     }
@@ -99,7 +99,7 @@ export const Expenses: React.FC = () => {
   ];
 
   // Filter expenses based on date range
-  const filteredData = data.filter((expense) => {
+  const filteredData = data?.filter((expense) => {
     const expenseDate = expense.date ? new Date(expense.date) : null;
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
@@ -113,8 +113,8 @@ export const Expenses: React.FC = () => {
   });
 
   // Group expenses by month for filtered data
-  const expensesByMonth: ExpensesByMonth = filteredData.reduce<ExpensesByMonth>(
-    (acc, expense) => {
+  const expensesByMonth: ExpensesByMonth =
+    filteredData?.reduce<ExpensesByMonth>((acc, expense) => {
       const date = expense.date ? new Date(expense.date) : null;
       const month = date?.getMonth();
       if (month !== undefined && !acc[month]) {
@@ -124,21 +124,19 @@ export const Expenses: React.FC = () => {
         acc[month].push(expense);
       }
       return acc;
-    },
-    {}
-  );
+    }, {}) || {};
+
+  const handleAddExpense = async (newExpense: Expense) => {
+    setData((prevData) =>
+      prevData ? [...prevData, newExpense] : [newExpense]
+    );
+  };
+
+  if (error) return <div>Failed to load expenses: {error}</div>;
+  if (!data) return <div>Fetching expenses...</div>;
 
   return (
     <div className="h-screen overflow-y-auto scrollbar-hidden">
-      {/*    <div className="mb-4">
-        <DateFilter
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={setStartDate}
-          onEndDateChange={setEndDate}
-        />
-        <ReportGenerator data={data} startDate={startDate} endDate={endDate} />
-      </div> */}
       <div id="filtered-expenses">
         {Object.keys(expensesByMonth).length === 0 ? (
           <p>No expenses found for the selected date range.</p>
@@ -160,5 +158,3 @@ export const Expenses: React.FC = () => {
     </div>
   );
 };
-
-export default Expenses;
