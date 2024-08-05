@@ -138,6 +138,8 @@ button {
   padding: 0;
   margin: 0;
   height: 212px;
+
+  box-shadow: 0px -1px 3px 0px rgba(24, 24, 25, 0.3);
 }
 img {
   object-fit: cover;
@@ -192,9 +194,9 @@ img {
 
   /* 🌼 DaisyUI/text-xs */
   font-family: "Roboto", sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 16px; /* 133.333% */
 
   margin-right: 0;
@@ -520,7 +522,7 @@ label {
 .modal-export-btn {
   border-radius: 8px;
   background: #6d28d9;
-  color: #FAF5FF;
+  color: #faf5ff;
 
   font-size: 14px;
   font-style: normal;

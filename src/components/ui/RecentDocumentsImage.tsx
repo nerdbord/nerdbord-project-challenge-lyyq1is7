@@ -5,7 +5,7 @@ import paragonnMaly from "../../assets/paragonnMaly.jpg";
 const RecentDocumentsImage = () => {
   return (
     <div className="recent-document-img-box">
-      <div className="card card-compact bg-base-100 w-96 shadow-xl">
+      <div className="card card-compact bg-base-100 w-96">
         <figure>
           <Image src={paragonnMaly} alt="Paragon" width={162} height={149} />
         </figure>
