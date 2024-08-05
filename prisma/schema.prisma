@@ -10,26 +10,26 @@ generator client {
 
 datasource db {
   provider = "cockroachdb"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://aniapiwo:_2LQNIDrmCfbvgMECMCeHQ@choice-macaw-15846.8nj.gcp-europe-west1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  receipts  Receipts[] @relation("UserReceipts")
+  id       String     @id @default(cuid())
+  email    String     @unique
+  name     String?
+  receipts Receipts[] @relation("UserReceipts")
 }
 
 model Receipts {
-  id            String   @id @default(cuid())
-  image         String?
-  date          String?
-  store         String?
-  items         String?
-  total         Int?
-  currency      String?
-  category      String?
-  createdAt     DateTime @default(now())
-  userId        String?
-  user          User?    @relation("UserReceipts", fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  image     String?
+  date      String?
+  store     String?
+  items     String?
+  total     Int?
+  currency  String?
+  category  String?
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation("UserReceipts", fields: [userId], references: [id])
 }

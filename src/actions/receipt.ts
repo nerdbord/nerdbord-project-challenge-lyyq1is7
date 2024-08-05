@@ -180,8 +180,10 @@ export async function fetchExpenses() {
   try {
     const prismaUser = await checkUserInDatabase();
 
+    console.log('prismaUser', prismaUser)
+
     if (!prismaUser || !prismaUser.id) {
-      throw new Error("Authenticated user not found or has no ID.");
+      return { message: "unauthorised user" };
     }
 
     const expenses = await prisma.receipts.findMany({
@@ -189,13 +191,12 @@ export async function fetchExpenses() {
     });
 
     if (!expenses) {
-      throw new Error("No expenses found for the user.");
+      return { message: " No expenses" };
     }
 
     return expenses;
   } catch (error) {
-    console.error("Failed to load expenses:", error);
-    throw error;
+    return { message: JSON.stringify(error) };
   }
 }
 

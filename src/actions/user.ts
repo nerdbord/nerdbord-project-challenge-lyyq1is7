@@ -1,3 +1,4 @@
+'use server'
 import { currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +13,6 @@ export async function checkUserInDatabase() {
 
       if (!existingUser) {
         const newUser = {
-          id: uuidv4(),
           email: user.emailAddresses[0].emailAddress,
           name: `${user.firstName} ${user.lastName}`,
         };
