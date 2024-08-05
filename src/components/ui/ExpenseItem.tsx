@@ -2,7 +2,7 @@ import React from "react";
 import Badge from "./Badge";
 
 const ExpenseItem = () => {
-  const text = "-1000.75 PLN";
+    const text = "-1000.75 PLN"
   return (
     <div>
       <div>Card Image</div>

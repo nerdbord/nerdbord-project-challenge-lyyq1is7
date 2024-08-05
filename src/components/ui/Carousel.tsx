@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import Pug from "@/assets/pug.png";
-import paragonnMaly from "@/assets/paragonnMaly.jpg";
-import par from "@/assets/par.webp";
+import Pug from "../../assets/pug.png";
+import paragonnMaly from "../../assets/paragonnMaly.jpg";
+import par from "../../assets/par.webp";
 
-type Props = {};
+type Props = {}
+
 const Carousel = (props: Props) => {
   return (
     <>
@@ -106,7 +107,12 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-                <Image src={Pug} alt="Paragon" width={500} height={500} />
+              <Image
+                  src={Pug}
+                  alt="Paragon"
+                  width={500}
+                  height={500}
+                />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">
@@ -147,7 +153,12 @@ const Carousel = (props: Props) => {
           <div className="carousel-item">
             <div className="card bg-base-100 w-96 shadow-xl">
               <figure>
-                <Image src={par} alt="Paragon" width={500} height={500} />
+              <Image
+                  src={par}
+                  alt="Paragon"
+                  width={500}
+                  height={500}
+                />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">

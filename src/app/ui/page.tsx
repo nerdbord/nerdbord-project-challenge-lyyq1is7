@@ -1,13 +1,22 @@
 import Carousel from "@/components/ui/Carousel";
+import CurrentMonthBox from "@/components/ui/CurrentMonthBox";
 import ExpenseItem from "@/components/ui/ExpenseItem";
-import Header from "@/components/ui/Header";
-import Separator from "@/components/ui/Separator";
+import WelcomeAllExpensesItem from "@/components/ui/WelcomeAllExpensesItem";
+import WelcomeBox from "@/components/ui/WelcomeBox";
+import "./../globals.css";
+import { fetchExpenses } from "@/actions/receipt";
 
-export default function Page() {
+export default async function Page() {
+  const expensesData = await fetchExpenses();
   return (
-    <div className="p-10">
-      <Header />
-      <button className="btn btn-primary">One</button>
+    <div className="ui-container">
+      <WelcomeBox />
+      <CurrentMonthBox />
+      {/* <WelcomeAllExpensesItem date={date} total={total} />
+    <WelcomeAllExpensesItem date={date} total={total} /> />
+    <WelcomeAllExpensesItem date={date} total={total} /> */}
+      {/* <ExpensesList expensesData={expensesData} /> */}
+      
       <h1>Your last expenses</h1>
       <div>
         <span>July</span>
@@ -22,8 +31,8 @@ export default function Page() {
         <span>-1800,75 PLN</span>
         <span>toggle ikona</span>
       </div>
-      <Separator />
       <Carousel />
+      
     </div>
   );
 }

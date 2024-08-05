@@ -16,7 +16,13 @@ html {
 
 body {
   background-color: #151515;
+  /* font-family: "Roboto", sans-serif; */
 }
+
+/* h4, h5 {
+  color: #444444;
+
+} */
 
 a {
   color: inherit;
@@ -31,6 +37,370 @@ button {
   max-width: 420px;
   height: 100dvh;
   background-color: white;
+}
+.ui-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcome-container {
+  width: 375px;
+  /* width: 343px; */
+  height: 391px;
+  padding-left: 16px;
+  padding-right: 16px;
+  gap: 0px;
+  border: 1px 0px 0px 0px;
+  background: linear-gradient(
+    180deg,
+    #000 -41.1%,
+    #2c0735 32.12%,
+    #2c0735 99.96%
+  );
+  color: white;
+  margin-bottom: 100px;
+}
+.welcome-header-box {
+  width: 343px;
+  height: 80px;
+  margin-bottom: 16px;
+}
+.welcome-header-items {
+  margin-top: 16px;
+  width: 343px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 214px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+}
+
+.welcome-hamburger {
+  width: 48px;
+  height: 48px;
+}
+
+.welcome-user {
+  color: var(--Purplish-White, #f7f5fa);
+
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+
+  margin-bottom: 8px;
+}
+
+.welcome-user-question {
+  margin-bottom: 48px;
+
+  color: var(--Purplish-White, #f7f5fa);
+
+  /* 🌼 DaisyUI/text-base */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+.welcome-recent-documents {
+  color: var(--Purplish-White, #f7f5fa);
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+  padding-bottom: 24px;
+}
+
+.recent-document-img-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 343px;
+  margin: 0 auto;
+  margin-bottom: 48px;
+  height: 212px;
+  gap: 20px;
+  color: black;
+  object-fit: cover;
+}
+.card.card-compact {
+  max-width: 161px;
+  padding: 0;
+  margin: 0;
+  height: 212px;
+
+  box-shadow: 0px -1px 3px 0px rgba(24, 24, 25, 0.3);
+}
+img {
+  object-fit: cover;
+}
+/* .card-compact .card-body  {
+  
+  border-radius: inherit;
+}  */
+
+.recent-document-img-box-item-img-and-box {
+  width: 151px;
+  height: 211px;
+  /* padding: 28px 0px 28px 0px; */
+  /* gap: 10px; */
+  border: 1px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.recent-document-img-box-img-wrapper {
+  height: 139px;
+}
+
+.card-body {
+  background: #613dc1;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 161px;
+  height: 72px;
+}
+
+.recent-document-img-box-item-number-date {
+  color: #f7f5fa;
+
+  /* 🌼 DaisyUI/text-xs */
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+
+  margin-right: 0;
+}
+
+.recent-document-img-box-item-number-value {
+  color: #f7f5fa;
+
+  /* 🌼 DaisyUI/text-xs */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 133.333% */
+
+  margin-right: 0;
+}
+.current-month-container {
+  margin-top: 48px;
+}
+
+.current-month-container-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.current-month-container-item-text {
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+}
+
+.number-in-card {
+  color: #181819;
+  text-align: right;
+
+  /* 🌼 DaisyUI/heading-2 */
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+}
+
+.current-month-container-item-icons {
+  align-content: flex-end;
+  margin-right: 0;
+  color: #4c1d95;
+}
+
+.current-month-container-card {
+  width: 343px;
+  /* height: 192px; */
+  padding: 24px 0px 0px 0px;
+  gap: 16px;
+  margin-bottom: 48px;
+  border-radius: 8px;
+  border: 1px solid #cbbfdd;
+  background: #f7f5fa;
+}
+
+.current-month-container-items {
+  width: 343px;
+}
+
+.current-month-container-card-items-1,
+.current-month-container-card-items-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  padding-left: 24px;
+  padding-bottom: 24px;
+}
+
+.current-month-container-card-items-month {
+  color: #181819;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+}
+.current-month-container-card-items-icon-with-number-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 120px;
+  height: 64px;
+
+  padding: 16px 24px 16px 24px;
+  gap: 16px;
+  border-radius: 180px 0px 0px 0px;
+  font-size: 24px;
+}
+
+.current-month-container-card-items-spends {
+  color: #181819;
+
+  /* 🌼 DaisyUI/heading-4 */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+  margin-left: 0;
+  text-align: left;
+}
+
+.current-month-container-card-items-spends-sum {
+  width: 173px;
+  height: 64px;
+  padding: 16px 24px 16px 24px;
+  gap: 10px;
+
+  border-radius: 180px;
+  border: 1px solid #2c0735;
+  background: #ede9fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spands-sum-number {
+  color: #2c0735;
+  text-align: center;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+}
+
+.welcome-all-expenses-box {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.welcome-all-expenses-title {
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/heading-3 */
+  font-family: Roboto, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+
+  margin-bottom: 24px;
+}
+.welcome-all-expenses-box-items {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.welcome-all-expenses-box-month {
+  font-size: 16px;
+  font-weight: 400;
+  color: #181819;
+  font-family: "Roboto", sans-serif;
+}
+
+.welcome-all-expenses-box-badge-icon {
+  width: 167px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: flex-end;
+  margin-right: 0;
+}
+.badge-outline {
+  border-radius: 18px;
+  border: 1px solid #2c0735;
+  background: #ede9fe;
+  padding: 12px;
+  color: #2c0735;
+}
+.welcome-all-expenses-icon-container {
+  margin-right: 0;
+  color: #2c0735;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+.btn-outline.btn-primary.btn-see-all-months {
+  border-radius: var(--t--borders-radius-rounded-full, 9999px);
+  border: 1px solid #2c0735;
+  color: #2c0735;
+
+  /* 🌼 DaisyUI/text-sm */
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -47,4 +417,118 @@ button {
 /* Ensure scrolling is still possible */
 .scrollbar-hidden {
   overflow-y: scroll;
+}
+
+.header-all-expenses {
+  width: 375px;
+  padding-left: 24px;
+  padding-right: 24px;
+  height: 50px;
+  background-color: #2c0735;
+
+  margin-top: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-all-items {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+.header-all-flex {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-icon {
+  color: white;
+  align-self: flex-end;
+  margin-right: 0;
+}
+
+.header-all-expenses-title {
+  color: #fff;
+  margin-left: 8px;
+
+  /* 🌼 DaisyUI/heading-4 */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+}
+.search-bar {
+  width: 375px;
+  /* padding: 24px; */
+  gap: 2;
+}
+
+label {
+  width: 100%;
+  padding: 0;
+}
+
+.search-icon-in-search {
+  width: 18px;
+  height: 18px;
+  /* padding-right: 15px; */
+}
+
+.filter-icon-in-search {
+  width: 24px;
+  height: 24px;
+  /* padding-right: 12px; */
+}
+
+.modal {
+  width: 344px;
+}
+
+.modal-export-cancel-btn {
+  color: #6d28d9;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+.modal-export-btn {
+  border-radius: 8px;
+  background: #6d28d9;
+  color: #faf5ff;
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.err-modal-title, .export-modal-title {
+  color: var(--Dark-navy, #181819);
+  text-align: center;
+
+  /* 🌼 DaisyUI/heading-2 */
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+}
+
+.err-modal-description, .export-modal-description {
+  color: var(--Dark-navy, #181819);
+  text-align: center;
+
+  /* 🌼 DaisyUI/text-base */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
 }
