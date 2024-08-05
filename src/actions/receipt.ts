@@ -183,7 +183,7 @@ export async function fetchExpenses() {
     console.log('prismaUser', prismaUser)
 
     if (!prismaUser || !prismaUser.id) {
-      throw new Error("Authenticated user not found or has no ID.");
+      return { message: "Authenticated user not found or has no ID." };
     }
 
     const expenses = await prisma.receipts.findMany({
