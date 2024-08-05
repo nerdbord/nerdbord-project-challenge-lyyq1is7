@@ -35,6 +35,7 @@ export const Expenses: React.FC = () => {
     const loadExpenses = async () => {
       try {
         const expenses = await fetchExpenses();
+        //@ts-ignore
         setData(expenses);
       } catch (error) {
         console.error("Error fetching expenses:", error);

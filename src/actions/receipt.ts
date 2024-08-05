@@ -183,16 +183,16 @@ export async function fetchExpenses() {
     console.log('prismaUser', prismaUser)
 
     if (!prismaUser || !prismaUser.id) {
-      return { message: "unauthorised user" };
+      throw new Error("Authenticated user not found or has no ID.");
     }
 
     const expenses = await prisma.receipts.findMany({
       where: { userId: prismaUser.id },
     });
 
-    if (!expenses) {
-      return { message: " No expenses" };
-    }
+    // if (!expenses) {
+    //   return { message: " No expenses" };
+    // }
 
     return expenses;
   } catch (error) {
