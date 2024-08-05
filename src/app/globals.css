@@ -529,3 +529,27 @@ label {
   font-weight: 400;
   line-height: 20px; /* 142.857% */
 }
+
+.err-modal-title {
+  color: var(--Dark-navy, #181819);
+  text-align: center;
+
+  /* 🌼 DaisyUI/heading-2 */
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+}
+
+.err-modal-description {
+  color: var(--Dark-navy, #181819);
+  text-align: center;
+
+  /* 🌼 DaisyUI/text-base */
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}

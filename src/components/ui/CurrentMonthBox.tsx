@@ -3,6 +3,7 @@ import { RxDashboard } from "react-icons/rx";
 import { CiShare2 } from "react-icons/ci";
 import { ArrowRightIcon } from "../icons/ArrowRightIcon";
 import Separator from "./Separator";
+import { ErrorModal } from "./ErrorModal";
 
 const CurrentMonthBox = () => {
   return (
@@ -76,6 +77,7 @@ const CurrentMonthBox = () => {
           See all months
         </button>
       </div>
+      <ErrorModal title={""} description={""} />
     </div>
   );
 };
