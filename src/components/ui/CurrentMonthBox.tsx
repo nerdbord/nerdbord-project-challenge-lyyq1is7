@@ -4,6 +4,7 @@ import { CiShare2 } from "react-icons/ci";
 import { ArrowRightIcon } from "../icons/ArrowRightIcon";
 import Separator from "./Separator";
 import { ErrorModal } from "./ErrorModal";
+import { XlsModal } from "./XlsModal";
 
 const CurrentMonthBox = () => {
   return (
@@ -78,6 +79,7 @@ const CurrentMonthBox = () => {
         </button>
       </div>
       <ErrorModal title={""} description={""} />
+      <XlsModal title={""} description={""} />
     </div>
   );
 };

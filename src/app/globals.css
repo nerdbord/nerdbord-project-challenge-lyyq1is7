@@ -530,7 +530,7 @@ label {
   line-height: 20px; /* 142.857% */
 }
 
-.err-modal-title {
+.err-modal-title, .export-modal-title {
   color: var(--Dark-navy, #181819);
   text-align: center;
 
@@ -542,7 +542,7 @@ label {
   line-height: 32px; /* 133.333% */
 }
 
-.err-modal-description {
+.err-modal-description, .export-modal-description {
   color: var(--Dark-navy, #181819);
   text-align: center;
 

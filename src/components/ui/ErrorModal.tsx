@@ -14,7 +14,7 @@ export const ErrorModal = (props: ErrorModalProps) => {
   return (
     <div>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
-      <button className="btn" onClick={()=>myErrorModal.current?.showModal()}>open modal</button>
+      <button className="btn" onClick={()=>myErrorModal.current?.showModal()}>open error modal</button>
       <dialog id="my_modal_3" className="modal" ref={myErrorModal}>
         <div className="modal-box">
           <form method="dialog">
