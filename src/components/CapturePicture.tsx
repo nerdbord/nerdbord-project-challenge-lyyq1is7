@@ -19,7 +19,7 @@ export const CapturePicture = (props: Props) => {
   useEffect(() => {
     if (videoRef.current) {
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ video: { facingMode: "environment" } })
         .then((stream) => {
           videoRef.current!.srcObject = stream;
           videoRef.current!.play();
