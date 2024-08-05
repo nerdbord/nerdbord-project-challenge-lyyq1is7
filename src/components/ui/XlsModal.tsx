@@ -12,7 +12,7 @@ export const XlsModal = (props: XlsModalProps) => {
   const description =
     "Do you want to export the document for the selected month as XLS?";
   return (
-    <div>
+    <div className="modal-width">
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
         className="btn"
@@ -25,7 +25,7 @@ export const XlsModal = (props: XlsModalProps) => {
         ref={myExportModal}
         className="modal modal-bottom sm:modal-middle"
       >
-        <div className="modal-box">
+        <div className="modal-box modal-width">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button
