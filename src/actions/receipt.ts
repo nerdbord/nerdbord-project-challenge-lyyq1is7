@@ -3,21 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
 import { Expense } from "@/components/Expenses";
 import * as XLSX from "xlsx";
+import { CATEGORIES_LIB } from "@/lib/categories";
 
-const CATEGORIES = [
-  "Clothes",
-  "Cosmetics",
-  "Education",
-  "Electronics",
-  "Entertainment",
-  "Grocery",
-  "Health and medicines",
-  "Hobby",
-  "Household items",
-  "Other",
-  "Restaurants and fast food",
-  "Transport",
-];
+const CATEGORIES = CATEGORIES_LIB;
 
 export async function analyzeReceipt(base64String: string): Promise<any> {
   try {
@@ -35,7 +23,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
             {
               role: "system",
               content: `You are a personal financial assistant. Your task is to analyze the receipt photo from the provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
-              Answer ONLY by filling out the JSON structure correctly:
+              Answer ONLY by filling clean JSON. Make sure to check out the JSON structure correctly and in the following format:
               {
                 "expense": {
                   "date": "date of purchase",
@@ -71,39 +59,90 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
 
     if (!response.ok) {
       console.error("API request failed with status:", response.status);
-      throw new Error(`API request failed with status ${response.status}`);
+      return {
+        error: {
+          message: `An unexpected error occurred during receipt analysis`,
+        },
+      };
     }
 
-    const data = await response.json();
-    console.log("Received data:", data);
+    const responseData = await response.text();
+    console.log("Raw response data:", responseData); // Log raw response data
 
-    if (data.choices && data.choices.length > 0) {
-      const content = data.choices[0].message.content;
+    try {
+      // Extract and clean JSON content
+      const jsonStartIndex = responseData.indexOf("{");
+      const jsonEndIndex = responseData.lastIndexOf("}") + 1;
 
-      try {
-        // Attempt to sanitize and safely parse the JSON content
-        const sanitizedContent = content
-          .replace(/[`‘’“”]/g, '"') // Replace non-standard quotes
-          .replace(/\\u([0-9A-Fa-f]{4})/g, (match: any, grp: string) => {
-            return String.fromCharCode(parseInt(grp, 16)); // Convert Unicode to characters
-          })
-          .replace(/[\u0000-\u0019]+/g, ""); // Remove control characters
+      if (jsonStartIndex === -1 || jsonEndIndex === -1) {
+        return {
+          error: {
+            message: "Could not find JSON content in the response",
+          },
+        };
+      }
+
+      const rawJson = responseData.substring(jsonStartIndex, jsonEndIndex);
+      const cleanedResponseData = rawJson.trim();
+      const parsedData = JSON.parse(cleanedResponseData);
+      console.log("Parsed JSON content:", parsedData);
+
+      if (parsedData && parsedData.choices && parsedData.choices.length > 0) {
+        const content = parsedData.choices[0].message.content;
+
+        // Extract JSON content from the content string
+        const contentJsonStart = content.indexOf("{");
+        const contentJsonEnd = content.lastIndexOf("}") + 1;
+        if (contentJsonStart === -1 || contentJsonEnd === -1) {
+          throw new Error("Could not find JSON content in the message");
+        }
+
+        const jsonContent = content.substring(contentJsonStart, contentJsonEnd);
+        const sanitizedContent = jsonContent
+          .replace(/`|‘|’|“|”/g, '"') // Normalize quotes
+          .replace(/\\n/g, "")
+          .replace(/\\t/g, "")
+          .replace(/\\r/g, "")
+          .replace(/\\"/g, '"')
+          .replace(/\\\\/g, "\\");
 
         const parsedContent = JSON.parse(sanitizedContent);
         console.log("Parsed JSON content:", parsedContent);
-        return parsedContent;
-      } catch (parseError) {
-        console.error("Error parsing JSON content:", content);
-        console.error("Detailed error:", parseError);
-        throw new Error("Failed to parse response content from GPT-4o model");
+
+        if (parsedContent && parsedContent.expense) {
+          return parsedContent;
+        } else {
+          throw new Error(
+            "Parsed content does not contain the expected structure."
+          );
+        }
+      } else {
+        console.error(
+          "No valid choices found in the response data:",
+          parsedData
+        );
+        return {
+          error: {
+            message: "An unexpected error occurred during receipt analysis",
+          },
+        };
       }
-    } else {
-      console.error("No valid choices found in the response data:", data);
-      throw new Error("No valid response from the GPT-4o model");
+    } catch (parseError) {
+      console.error("Error parsing JSON content:", responseData);
+      console.error("Detailed error:", parseError);
+      return {
+        error: {
+          message: "An unexpected error occurred during receipt analysis",
+        },
+      };
     }
   } catch (error) {
     console.error("Error analyzing receipt:", error);
-    throw error;
+    return {
+      error: {
+        message: "An unexpected error occurred during receipt analysis",
+      },
+    };
   }
 }
 
@@ -131,7 +170,8 @@ export async function saveReceipt(receiptData: any): Promise<string> {
 
     return receipt.id;
   } catch (error) {
-    console.error("Failed to save analyzed receipt:", error);
+    console.log("Failed to save analyzed receipt:");
+    console.log(error);
     throw error;
   }
 }

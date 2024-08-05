@@ -12,20 +12,22 @@ export const CapturePicture = (props: Props) => {
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<any | null>(null);
   const [analyzing, setAnalyzing] = useState<boolean>(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // Request the user's camera
     if (videoRef.current) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((stream) => {
           videoRef.current!.srcObject = stream;
           videoRef.current!.play();
+          setCameraError(null);
         })
         .catch((err) => {
           console.error("Failed to access camera:", err);
+          setCameraError("No camera available or permission denied.");
         });
     }
   }, []);
@@ -36,7 +38,7 @@ export const CapturePicture = (props: Props) => {
     setAnalyzing(false);
     if (videoRef.current) {
       const stream = videoRef.current.srcObject as MediaStream;
-      const tracks = stream.getTracks();
+      const tracks = stream?.getTracks() || [];
       tracks.forEach((track) => track.stop());
       videoRef.current.srcObject = null;
     }
@@ -77,7 +79,7 @@ export const CapturePicture = (props: Props) => {
       if (image) {
         setAnalyzing(true);
         const analysis = await analyzeReceipt(image);
-        setResult(analysis);
+        setResult({ ...analysis, image }); // Include image in result
       }
     } catch (error) {
       console.error("Photo unable to be analyzed.", error);
@@ -88,12 +90,13 @@ export const CapturePicture = (props: Props) => {
 
   const handleSaveReceipt = async () => {
     console.log("Saving receipt...");
+    console.log(result);
   };
 
   return (
-    <div className="flex flex-col h-screen w-full">
+    <div className="flex flex-col h-screen w-full bg-purple-50">
       {/* Header */}
-      <div className="flex justify-between items-center bg-gray-200 h-12 w-full p-4">
+      <div className="flex gap-32 justify-between items-center bg-white h-12 w-full">
         <div className="flex items-center">
           <GoBackBtn />
           <p className="text-xl font-medium px-2">Capture Document</p>
@@ -122,6 +125,10 @@ export const CapturePicture = (props: Props) => {
             alt="Receipt"
             className="max-h-full max-w-full p-4"
           />
+        ) : cameraError ? (
+          <div className="p-4 max-w-full max-h-full">
+            <p>{cameraError}</p>
+          </div>
         ) : (
           <>
             <video
@@ -135,7 +142,7 @@ export const CapturePicture = (props: Props) => {
             <div className="absolute bottom-4 left-0 right-0 flex justify-center">
               <button
                 onClick={captureImage}
-                className="rounded-full h-16 w-16 flex justify-center items-center bg-violet-700 text-white"
+                className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 text-white"
               >
                 <LensIcon />
               </button>
@@ -145,44 +152,44 @@ export const CapturePicture = (props: Props) => {
       </div>
 
       {/* Footer */}
-      <div className="flex flex-col gap-4 justify-center items-center bg-gray-200 w-full px-4 h-28">
+      <div className="flex flex-col gap-4 justify-center items-center bg-white w-full px-4 ">
         {image && !result && (
-          <div className="flex items-center w-full justify-evenly pt-2">
+          <div className="flex items-center w-full justify-evenly pt-2 pt-5 pb-10">
             <button
               onClick={handleCancel}
-              className="rounded-full flex items-center justify-center w-32 px-8 py-4 border border-violet-900 text-violet-900"
+              className="rounded-full flex items-center justify-center w-32 px-8 py-4 border border-purple-900 text-purple-900"
             >
               <p className="px-2">Cancel</p>
             </button>
 
             <button
               onClick={handleAnalyzeReceipt}
-              className="rounded-full w-32 px-8 py-4 border border-violet-900 bg-violet-900 text-white flex items-center justify-center"
+              className="rounded-full w-32 px-8 py-4 border border-purple-900 bg-purple-900 text-white flex items-center justify-center"
             >
               <p className="px-2">Analyze</p>
             </button>
           </div>
         )}
         {result && (
-          <div className="flex items-center w-full justify-evenly pt-2">
+          <div className="flex items-center w-full justify-evenly pt-2 pt-2 pt-5 pb-10">
             <button
               onClick={handleCancel}
-              className="rounded-full w-32 px-8 py-4 border border-violet-900 text-violet-900 flex items-center justify-center"
+              className="rounded-full w-32 px-8 py-4 border border-purple-900 text-purple-900 flex items-center justify-center"
             >
               <p className="px-2">Cancel</p>
             </button>
 
             <button
               onClick={handleSaveReceipt}
-              className="rounded-full w-32 px-8 py-4 border border-violet-900 bg-violet-900 text-white flex items-center justify-center"
+              className="rounded-full w-32 px-8 py-4 border border-purple-900 bg-purple-900 text-white flex items-center justify-center"
             >
-              <p className="px-2">Save</p>
+              <p className="px-2">Confirm</p>
             </button>
           </div>
         )}
         {!image && !result && (
           <>
-            <div className="flex gap-12 items-center w-full justify-evenly pt-2">
+            <div className="flex gap-12 items-center w-full justify-evenly pt-2 pb-6 h-20">
               <label className="rounded-full h-12 w-12 flex justify-center items-center border border-violet-700 cursor-pointer m-0">
                 <RiImageLine className="h-6 w-auto text-violet-700" />
                 <input
@@ -192,7 +199,10 @@ export const CapturePicture = (props: Props) => {
                   className="hidden"
                 />
               </label>
-              <button className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 ">
+              <button
+                onClick={captureImage}
+                className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 text-white"
+              >
                 <LensIcon />
               </button>
               <button className="rounded-full h-12 w-12 flex justify-center items-center border border-violet-700">
