@@ -53,3 +53,13 @@ input {
 .test {
   border: 1px solid pink;
 }
+
+.bg-image {
+  background-image: url("../assets/bg.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.custom {
+  color: #cbbfdd;
+}

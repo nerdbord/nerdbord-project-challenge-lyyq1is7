@@ -9,8 +9,8 @@ type Props = {};
 
 export const Landing = (props: Props) => {
   return (
-    <div className="flex flex-col gap-12 justify-center items-center bg-purple-color h-screen p-4">
-      <Image className="" src={Logo} alt="Pug" width={180} height={120} />
+    <div className="bg-image flex flex-col gap-12 justify-center items-center bg-purple-color h-screen p-4">
+      <Image className="" src={Logo} alt="logo" width={180} height={120} />
       <div className="flex flex-col gap-8 text-center">
         <h1 className="text-center text-4xl not-italic font-semibold leading-10 neutral-color">
           Financial Freedom <br /> at Your Fingertips
