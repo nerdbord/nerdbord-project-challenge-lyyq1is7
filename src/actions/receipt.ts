@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
 import { Expense } from "@/components/Expenses";
 import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
 const CATEGORIES = CATEGORIES_LIB;
@@ -160,7 +161,7 @@ export async function saveReceipt(receiptData: any): Promise<string> {
         date: receiptData.date || "N/A",
         store: receiptData.store || "N/A",
         items: receiptData.items || "N/A",
-        total: receiptData.total || "N/A",
+        total: receiptData.total || null,
         currency: receiptData.currency || "N/A",
         category: receiptData.category || "Other",
         image: receiptData.image || "",
@@ -179,7 +180,6 @@ export async function saveReceipt(receiptData: any): Promise<string> {
 export async function fetchExpenses() {
   try {
     const prismaUser = await checkUserInDatabase();
-
 
     if (!prismaUser || !prismaUser.id) {
       throw new Error("Authenticated user not found or has no ID.");
@@ -272,38 +272,6 @@ export async function updateExpense(
     console.error("Failed to update expense:", error);
     throw error;
   }
-}
-export async function generateReport(
-  expenses: Expense[],
-  startDate: string,
-  endDate: string
-) {
-  const filteredData = expenses.filter((expense) => {
-    const expenseDate = expense.date ? new Date(expense.date) : null;
-    const start = startDate ? new Date(startDate) : null;
-    const end = endDate ? new Date(endDate) : null;
-
-    if (!expenseDate) return false;
-
-    if (start && expenseDate < start) return false;
-    if (end && expenseDate > end) return false;
-
-    return true;
-  });
-
-  const worksheetData = filteredData.map((expense) => ({
-    Date: expense.date || "N/A",
-    Store: expense.store || "N/A",
-    Items: expense.items || "N/A",
-    Total: expense.total !== null ? expense.total.toString() : "N/A",
-    Currency: expense.currency || "N/A",
-    Category: expense.category || "N/A",
-  }));
-
-  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Expenses");
-  XLSX.writeFile(workbook, "Expenses_Report.xlsx");
 }
 
 export async function scanReceipt(base64String: string): Promise<any> {
