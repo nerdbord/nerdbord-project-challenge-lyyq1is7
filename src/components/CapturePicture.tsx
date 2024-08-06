@@ -4,25 +4,47 @@ import { RiImageLine, RiSearchLine, RiFlashlightLine } from "react-icons/ri";
 import { LensIcon } from "./icons/LensIcon";
 import { GoBackBtn } from "./GoBackBtn";
 import { analyzeReceipt, saveReceipt } from "../actions/receipt";
-import { ReceiptDetails } from "./ScannedReceipt";
+import { ReceiptDetails } from "./ReceiptDetails";
+import { Loader } from "./Loader";
+import { useRouter } from "next/navigation";
 
-type Props = {};
+interface Props {}
 
-export const CapturePicture = (props: Props) => {
+interface Expense {
+  items: never[];
+  store: string;
+  date: string;
+  total: number;
+  currency: string;
+  category: string;
+}
+
+interface Result {
+  expense: Expense;
+  image?: string;
+  error?: { message: string };
+}
+
+export const CapturePicture: React.FC<Props> = (props: Props) => {
   const [image, setImage] = useState<string | null>(null);
-  const [result, setResult] = useState<any | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const [analyzing, setAnalyzing] = useState<boolean>(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (videoRef.current) {
       navigator.mediaDevices
         .getUserMedia({ video: { facingMode: "environment" } })
         .then((stream) => {
-          videoRef.current!.srcObject = stream;
-          videoRef.current!.play();
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.play();
+          }
           setCameraError(null);
         })
         .catch((err) => {
@@ -79,7 +101,8 @@ export const CapturePicture = (props: Props) => {
       if (image) {
         setAnalyzing(true);
         const analysis = await analyzeReceipt(image);
-        setResult({ ...analysis, image }); // Include image in result
+        // Ensure analysis contains the expected expense structure
+        setResult({ expense: analysis.expense, image, error: analysis.error }); // Set the result including expense
       }
     } catch (error) {
       console.error("Photo unable to be analyzed.", error);
@@ -89,17 +112,38 @@ export const CapturePicture = (props: Props) => {
   };
 
   const handleSaveReceipt = async () => {
-    console.log("Saving receipt...");
-    console.log(result);
+    setLoading(true);
+    if (result && result.expense) {
+      try {
+        const { expense } = result;
+        const receiptData = {
+          date: expense.date,
+          store: expense.store,
+          items: JSON.stringify(expense.items || []),
+          total: expense.total,
+          currency: expense.currency,
+          category: expense.category,
+          image: image || "",
+        };
+        const receiptId = await saveReceipt(receiptData);
+        console.log("Receipt saved with ID:", receiptId);
+      } catch (error) {
+        console.error("Failed to save receipt:", error);
+      } finally {
+        setLoading(false);
+        router.push("/");
+      }
+    }
   };
 
   return (
     <div className="flex flex-col h-screen w-full bg-purple-50">
       {/* Header */}
+      <div className="bg-white h-12 w-full"></div>
       <div className="flex gap-32 justify-between items-center bg-white h-12 w-full">
         <div className="flex items-center">
           <GoBackBtn />
-          <p className="text-xl font-medium px-2">Capture Document</p>
+          <p className="text-xl font-medium px-2">Capture Documentp</p>
         </div>
         <div className="flex items-center">
           <RiFlashlightLine />
@@ -107,8 +151,11 @@ export const CapturePicture = (props: Props) => {
       </div>
 
       {/* Camera Section */}
+
       <div className="flex-grow flex items-center justify-center w-full relative">
-        {result ? (
+        {loading ? (
+          <Loader />
+        ) : result ? (
           result.error ? (
             <div className="p-4 max-w-full max-h-full">
               An error occurred while analyzing the receipt.
@@ -152,7 +199,7 @@ export const CapturePicture = (props: Props) => {
       </div>
 
       {/* Footer */}
-      <div className="flex flex-col gap-4 justify-center items-center bg-white w-full px-4 ">
+      <div className="flex flex-col gap-4 justify-center items-center bg-white w-full px-4 pb-6">
         {image && !result && (
           <div className="flex items-center w-full justify-evenly pt-2 pt-5 pb-10">
             <button
@@ -178,13 +225,14 @@ export const CapturePicture = (props: Props) => {
             >
               <p className="px-2">Cancel</p>
             </button>
-
-            <button
-              onClick={handleSaveReceipt}
-              className="rounded-full w-32 px-8 py-4 border border-purple-900 bg-purple-900 text-white flex items-center justify-center"
-            >
-              <p className="px-2">Confirm</p>
-            </button>
+            {
+              <button
+                onClick={handleSaveReceipt}
+                className="rounded-full w-32 px-8 py-4 border border-purple-900 bg-purple-900 text-white flex items-center justify-center"
+              >
+                <p className="px-2">Save</p>
+              </button>
+            }
           </div>
         )}
         {!image && !result && (

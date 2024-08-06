@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { saveReceipt } from "../actions/receipt";
+import { saveReceipt } from "@/actions/receipt";
 import { useSession } from "@clerk/nextjs";
 
 export const ManualReceiptForm = () => {

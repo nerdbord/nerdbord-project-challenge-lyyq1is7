@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEventHandler, useState } from "react";
-import { analyzeReceipt, saveReceipt } from "../actions/receipt";
+import { analyzeReceipt, saveReceipt } from "../../actions/receipt";
 import "./styles.css";
 
 export const ReceiptAnalyzer = ({

@@ -1,5 +1,5 @@
-import React from "react";
-import { Expense } from "./Expenses";
+/* import React from "react";
+import { Expense } from "../Expenses";
 import { generateReport } from "@/actions/receipt";
 
 interface ReportGeneratorProps {
@@ -29,4 +29,4 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
       Generate Report
     </button>
   );
-};
+}; */

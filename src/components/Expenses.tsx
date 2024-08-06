@@ -1,12 +1,14 @@
 "use client";
-
-import "./styles.css";
-import React, { useState, useEffect } from "react";
-import { fetchExpenses, deleteExpense } from "@/actions/receipt";
+import React from "react";
+import useSWR from "swr";
+import { fetchExpenses } from "@/actions/receipt";
 import { ExpenseItem } from "./ExpenseItem";
-import { DateFilter } from "./DateFilter";
-import { ReportGenerator } from "./RaportGenerator";
-import ReceiptAnalyzer from "./ReceiptAnalyzer";
+import { CiFilter, CiSearch } from "react-icons/ci";
+import { BsChevronLeft } from "react-icons/bs";
+import { GoShareAndroid, GoPlus } from "react-icons/go";
+import { useRouter } from "next/navigation";
+import { Loader } from "./Loader";
+import { ReportsGenerator } from "./RaportsGenerator";
 
 export interface Expense {
   id: string;
@@ -26,34 +28,13 @@ interface ExpensesByMonth {
 }
 
 export const Expenses: React.FC = () => {
-  const [data, setData] = useState<Expense[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const fetcher = async () => await fetchExpenses();
+  const { data, error } = useSWR<Expense[], Error>("expenses", fetcher);
 
-  useEffect(() => {
-    const loadExpenses = async () => {
-      try {
-        const expenses = await fetchExpenses();
-        setData(expenses);
-      } catch (error) {
-        console.error("Error fetching expenses:", error);
-        setError("Failed to fetch expenses.");
-      }
-    };
+  const router = useRouter();
 
-    loadExpenses();
-  }, []);
-
-  const handleDeleteExpense = async (id: string) => {
-    try {
-      setData(
-        (prevData) => prevData?.filter((expense) => expense.id !== id) || null
-      );
-      await deleteExpense(id);
-    } catch (error) {
-      console.error("Failed to delete expense:", error);
-    }
+  const handleCapturePicture = () => {
+    router.push("/scan");
   };
 
   const months = [
@@ -71,23 +52,9 @@ export const Expenses: React.FC = () => {
     "December",
   ];
 
-  // Filter expenses based on date range
-  const filteredData = data?.filter((expense) => {
-    const expenseDate = expense.date ? new Date(expense.date) : null;
-    const start = startDate ? new Date(startDate) : null;
-    const end = endDate ? new Date(endDate) : null;
-
-    if (!expenseDate) return false;
-
-    if (start && expenseDate < start) return false;
-    if (end && expenseDate > end) return false;
-
-    return true;
-  });
-
-  // Group expenses by month for filtered data
+  // Group expenses by month
   const expensesByMonth: ExpensesByMonth =
-    filteredData?.reduce<ExpensesByMonth>((acc, expense) => {
+    data?.reduce<ExpensesByMonth>((acc, expense) => {
       const date = expense.date ? new Date(expense.date) : null;
       const month = date?.getMonth();
       if (month !== undefined && !acc[month]) {
@@ -99,27 +66,50 @@ export const Expenses: React.FC = () => {
       return acc;
     }, {}) || {};
 
-  const handleAddExpense = async (newExpense: Expense) => {
-    setData((prevData) =>
-      prevData ? [...prevData, newExpense] : [newExpense]
-    );
-  };
-
-  if (error) return <div>Failed to load expenses: {error}</div>;
-  if (!data) return <div>Fetching expenses...</div>;
+  if (error) return <div>Failed to load expenses: {error.message}</div>;
+  if (!data) return <Loader />;
 
   return (
-    <div className="h-screen overflow-y-auto scrollbar-hidden">
-      <div id="filtered-expenses">
+    <div className="flex flex-col w-full h-full overflow-hidden bg-purple-50">
+      <div className="flex h-12 justify-between items-center w-full bg-purple-900 text-white px-4 gap-24">
+        <div className="flex items-center">
+          <BsChevronLeft className="w-4 h-4" />
+          <p className="text-base font-semibold leading-6 pl-4">July 2024</p>
+        </div>
+        <p className="text-center text-base font-normal leading-6">0,00 PLN</p>
+        <GoShareAndroid className="w-4 h-4" />
+      </div>
+      <div className="flex h-12 justify-between items-center w-full bg-white text-purple-900 px-4">
+        <CiSearch className="w-6 h-6" />
+        <input
+          className="text-sm font-normal leading-5 text-purple-900 placeholder:text-purple-900 h-12 w-full bg-white border-none focus:outline-none px-4"
+          type="text"
+          placeholder="Search by document text"
+        />
+        <CiFilter className="w-6 h-6" />
+      </div>
+      <div id="expenses" className="flex-grow w-full overflow-y-auto p-4">
         {Object.keys(expensesByMonth).length === 0 ? (
-          <p>No expenses found for the selected date range.</p>
+          <div className="pt-16 text-purple-900 w-full">
+            <p className="text-center text-xl font-semibold leading-7">
+              It's empty here.
+            </p>
+            <p className="text-center text-base font-normal leading-6 pt-3">
+              No expenses yet.
+              <br /> Add your first document <br /> to see it here!
+            </p>
+          </div>
         ) : (
           Object.keys(expensesByMonth).map((monthIndex) => (
             <div key={monthIndex} className="mb-6">
-              <h2 className="text-xl font-bold mb-4">
-                {months[parseInt(monthIndex)]}
-              </h2>
-              <ul className="flex flex-col justify-between w-full gap-2">
+              <div className="flex justify-between items-center pb-4">
+                <h2 className="text-xl not-italic font-semibold leading-7 mb-4 text-purple-900">
+                  {months[parseInt(monthIndex)]}
+                </h2>
+                <ReportsGenerator expensesByMonth={expensesByMonth} />
+              </div>
+
+              <ul className="flex flex-col gap-2">
                 {expensesByMonth[parseInt(monthIndex)]?.map((expense) => (
                   <ExpenseItem key={expense.id} expense={expense} />
                 ))}
@@ -128,6 +118,14 @@ export const Expenses: React.FC = () => {
           ))
         )}
       </div>
+
+      <button
+        onClick={handleCapturePicture}
+        className="absolute bottom-24 left-24 right-24  bg-violet-900 text-white font-bold py-5 px-6 rounded-full text-purple-50 text-base not-italic font-normal leading-6"
+      >
+        <GoPlus className="w-6 h-6 inline-block mr-2" />
+        Add new expense
+      </button>
     </div>
   );
 };

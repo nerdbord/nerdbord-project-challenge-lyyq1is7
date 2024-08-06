@@ -25,20 +25,23 @@ interface ReceiptDetailsProps {
 }
 
 export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
-  const [store, setStore] = useState(result.expense?.store || "N/A");
-  const [date, setDate] = useState(result.expense?.date || "N/A");
+  const [store, setStore] = useState<string>(result.expense.store || "N/A");
+  const [date, setDate] = useState<string>(result.expense.date || "N/A");
   const [total, setTotal] = useState<number | null>(
-    result.expense?.total || null
+    result.expense.total || null
   );
-  const [currency, setCurrency] = useState(result.expense?.currency || "N/A");
-  const [category, setCategory] = useState(result.expense?.category || "N/A");
+  const [currency, setCurrency] = useState<string>(
+    result.expense.currency || "N/A"
+  );
+  const [category, setCategory] = useState<string>(
+    result.expense.category || "N/A"
+  );
   const receiptImage = result.image || Pug;
 
   // Handle input change for total
   const handleTotalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTotal(value ? parseFloat(value) : null);
-    console.log(typeof total);
   };
 
   return (
@@ -54,8 +57,8 @@ export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
 
       <div className="p-4 space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="flex gap-4 items-center w-full max-w-md ">
-            <div className="flex gap-4 flex-col items-start flex-grow ">
+          <div className="flex gap-4 items-center w-full max-w-md">
+            <div className="flex gap-4 flex-col items-start flex-grow">
               <label className="w-full font-semibold text-start text-xl not-italic font-semibold leading-7 text-gray-900">
                 Merchant:
               </label>
@@ -84,7 +87,7 @@ export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
             <label className="w-full font-semibold text-start text-xl not-italic font-semibold leading-7 text-gray-900">
               Total:
             </label>
-            <div className="flex gap-4 items-start w-full max-w-md ">
+            <div className="flex gap-4 items-start w-full max-w-md">
               <input
                 type="number"
                 className="border w-28 rounded-md p-2 bg-white"
@@ -118,6 +121,9 @@ export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
           </select>
         </div>
       </div>
+      <p className="text-center pt-8">
+        You need to be logged in to save receipt.
+      </p>
     </div>
   );
 };
