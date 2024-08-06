@@ -10,6 +10,7 @@ import { Loader } from "./Loader";
 import { CATEGORIES_LIB } from "@/lib/categories";
 import Image from "next/image";
 import Pug from "@/assets/pug.png";
+import { GoBackBtn } from "./GoBackBtn";
 
 const CATEGORIES = CATEGORIES_LIB;
 
@@ -86,6 +87,10 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
     }
   };
 
+  const handleGoBack = () => {
+    router.push("/");
+  };
+
   if (loading) return <Loader />;
   if (!expense) return <Loader />;
 
@@ -93,6 +98,13 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
 
   return (
     <div className="h-full mx-auto space-y-4 bg-purple-50 pt-20">
+      <div
+        onClick={handleGoBack}
+        className="flex items-center justify-start px-4 text-purple-900"
+      >
+        <GoBackBtn />
+        Back to Expenses
+      </div>
       <div className="relative w-full h-52">
         <Image
           src={receiptImage}
@@ -135,7 +147,7 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="flex gap-4 flex-col items-start">
+                <div className="flex gap-2 flex-col items-start">
                   <label className="w-full font-semibold text-start text-xl not-italic font-semibold leading-7 text-gray-900">
                     Total:
                   </label>

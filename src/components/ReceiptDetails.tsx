@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Pug from "@/assets/pug.png";
 import Image from "next/image";
 import "./styles.css";
+import { useUser } from "@clerk/nextjs";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
 const CATEGORIES = CATEGORIES_LIB;
@@ -25,6 +26,7 @@ interface ReceiptDetailsProps {
 }
 
 export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
+  const { isSignedIn } = useUser();
   const [store, setStore] = useState<string>(result.expense.store || "N/A");
   const [date, setDate] = useState<string>(result.expense.date || "N/A");
   const [total, setTotal] = useState<number | null>(
@@ -121,9 +123,11 @@ export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
           </select>
         </div>
       </div>
-      <p className="text-center pt-8 pb-2">
-        You need to be logged in to save receipt.
-      </p>
+      {isSignedIn ? null : (
+        <p className="text-center pt-8 pb-2">
+          You need to be logged in to save receipt.
+        </p>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import { fetchExpenses } from "@/actions/receipt";
 import { ExpenseItem } from "./ExpenseItem";
@@ -7,7 +7,7 @@ import { CiFilter, CiSearch } from "react-icons/ci";
 import { BsChevronLeft } from "react-icons/bs";
 import { GoShareAndroid, GoPlus } from "react-icons/go";
 import { useRouter } from "next/navigation";
-import { Loader } from "./Loader";
+import { Loader } from "./Loader"; // Assuming you have a Loader component
 import { ReportsGenerator } from "./RaportsGenerator";
 import { UserButton } from "@clerk/nextjs";
 
@@ -29,7 +29,20 @@ interface ExpensesByMonth {
 }
 
 export const Expenses: React.FC = () => {
-  const fetcher = async () => await fetchExpenses();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetcher = async () => {
+    try {
+      const expenses = await fetchExpenses();
+      setLoading(false);
+      return expenses;
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching expenses:", error);
+      throw error;
+    }
+  };
+
   const { data, error } = useSWR<Expense[], Error>("expenses", fetcher);
 
   const router = useRouter();
@@ -68,7 +81,6 @@ export const Expenses: React.FC = () => {
     }, {}) || {};
 
   if (error) return <div>Failed to load expenses: {error.message}</div>;
-  if (!data) return <Loader />;
 
   return (
     <div className="flex flex-col w-full h-full overflow-hidden bg-purple-50">
@@ -97,7 +109,9 @@ export const Expenses: React.FC = () => {
         <CiFilter className="w-6 h-6" />
       </div>
       <div id="expenses" className="flex-grow w-full overflow-y-auto p-4">
-        {Object.keys(expensesByMonth).length === 0 ? (
+        {loading ? (
+          <Loader />
+        ) : Object.keys(expensesByMonth).length === 0 ? (
           <div className="pt-16 text-purple-900 w-full">
             <p className="text-center text-xl font-semibold leading-7">
               It's empty here.
