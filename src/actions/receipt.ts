@@ -1,7 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
-import { generateObject } from "ai";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
 const CATEGORIES = CATEGORIES_LIB;
