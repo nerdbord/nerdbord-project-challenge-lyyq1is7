@@ -79,7 +79,12 @@ export const Expenses: React.FC = () => {
         </div>
         <div className="flex items-center gap-4 m-0">
           <UserButton />
-          <GoShareAndroid className="w-4 h-4" />
+          <button
+            onClick={handleCapturePicture}
+            className="bg-white border border-white p-1 text-white font-bold  rounded-full text-purple-900 text-base not-italic font-normal leading-6"
+          >
+            <GoPlus className="text-purple-900 w-5 h-5" />
+          </button>
         </div>
       </div>
       <div className="flex h-12 justify-between items-center w-full bg-white text-purple-900 px-4">
@@ -101,6 +106,10 @@ export const Expenses: React.FC = () => {
               No expenses yet.
               <br /> Add your first document <br /> to see it here!
             </p>
+            <button
+              onClick={handleCapturePicture}
+              className="absolute bottom-24 left-24 right-24  bg-violet-900 text-white font-bold py-5 px-6 rounded-full text-purple-50 text-base not-italic font-normal leading-6"
+            ></button>
           </div>
         ) : (
           Object.keys(expensesByMonth).map((monthIndex) => (
@@ -121,14 +130,6 @@ export const Expenses: React.FC = () => {
           ))
         )}
       </div>
-
-      <button
-        onClick={handleCapturePicture}
-        className="absolute bottom-24 left-24 right-24  bg-violet-900 text-white font-bold py-5 px-6 rounded-full text-purple-50 text-base not-italic font-normal leading-6"
-      >
-        <GoPlus className="w-6 h-6 inline-block mr-2" />
-        Add new expense
-      </button>
     </div>
   );
 };
