@@ -87,7 +87,7 @@ export const ExpenseDetail = ({ params }: { params?: { id: string } }) => {
   };
 
   if (loading) return <Loader />;
-  if (!expense) return <div>No expense found</div>;
+  if (!expense) return <Loader />;
 
   const receiptImage = expense.image || Pug;
 
