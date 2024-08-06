@@ -72,7 +72,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
                 }
               }
               Match the categories from the table: ${CATEGORIES.join(", ")}.
-               If any of the data is not illegible in the receipt, or if you are not 100% sure what is written enter ILLEGIBLE.
+               If date is not illegible in the receipt, or if you are not 100% sure what is written enter ILLEGIBLE.
               If any of the data is not included in the receipt, enter NO DATA. If the photo is too bright or too dark or has unreadable text or is not a receipt return a JSON with an explanation:
               {
                 "error": {
