@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
+let cat;
+
 const CATEGORIES = CATEGORIES_LIB;
 
 export async function analyzeReceipt(base64String: string): Promise<any> {
