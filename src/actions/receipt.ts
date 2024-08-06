@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
-let cat;
+let dog;
 
 const CATEGORIES = CATEGORIES_LIB;
 
