@@ -5,44 +5,6 @@ import { CATEGORIES_LIB } from "@/lib/categories";
 
 const CATEGORIES = CATEGORIES_LIB;
 
-/* export async function analyzeReceipt(base64String: string): Promise<any> {
-  try {
-    const response = await generateObject({
-      model: "gpt-4o",
-      prompt: "Analyze the receipt photo and extract relevant details.",
-      image: { data: base64String, type: "base64" },
-      schema: {
-        expense: {
-          date: "string",
-          store: "string",
-          total: "number",
-          currency: "string",
-          items: "string",
-          category: "string",
-        },
-        error: {
-          message: "string",
-        },
-      },
-    });
-
-    if (response.data.expense) {
-      return response.data;
-    } else if (response.data.error) {
-      return { error: response.data.error };
-    } else {
-      throw new Error("Unexpected response structure");
-    }
-  } catch (error) {
-    console.error("Error analyzing receipt:", error);
-    return {
-      error: {
-        message: "An unexpected error occurred during receipt analysis",
-      },
-    };
-  }
-}
- */
 export async function analyzeReceipt(base64String: string): Promise<any> {
   try {
     const response = await fetch(

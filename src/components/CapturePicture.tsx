@@ -7,7 +7,7 @@ import { analyzeReceipt, saveReceipt } from "../actions/receipt";
 import { ReceiptDetails } from "./ReceiptDetails";
 import { Loader } from "./Loader";
 import { useRouter } from "next/navigation";
-import { useUser, useClerk } from "@clerk/nextjs"; // Import Clerk hooks
+import { useUser, useClerk } from "@clerk/nextjs";
 import { checkUserInDatabase } from "@/actions/user";
 
 interface Props {}
@@ -28,7 +28,7 @@ interface Result {
 }
 
 export const CapturePicture: React.FC<Props> = (props: Props) => {
-  const { isLoaded, isSignedIn } = useUser(); // Clerk's user authentication state
+  const { isLoaded, isSignedIn } = useUser();
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [analyzing, setAnalyzing] = useState<boolean>(false);
@@ -158,7 +158,7 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
       <div className="flex gap-32 justify-between items-center bg-white h-12 w-full">
         <div className="flex items-center">
           <GoBackBtn />
-          <p className="text-xl font-medium px-4">Capture Document</p>
+          <p className="text-xl font-medium p-4">Capture Document</p>
         </div>
         <div className="flex items-center">
           <RiFlashlightLine />
@@ -202,16 +202,6 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
             <canvas ref={canvasRef} className="hidden" />
           </>
         )}
-        {/*         {image && !result && (
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-            <button
-              onClick={captureImage}
-              className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 text-white"
-            >
-              <LensIcon />
-            </button>
-          </div>
-        )} */}
       </div>
 
       {/* Footer */}
@@ -253,7 +243,7 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
         )}
         {!image && !result && (
           <>
-            <div className="flex gap-12 items-center w-full justify-evenly pt-2 pb-6 h-20">
+            <div className="flex gap-12 items-center w-full justify-evenly pt-2 pb-6 h-20 z-40">
               <label className="rounded-full h-12 w-12 flex justify-center items-center border border-violet-700 cursor-pointer m-0">
                 <RiImageLine className="h-6 w-auto text-violet-700" />
                 <input

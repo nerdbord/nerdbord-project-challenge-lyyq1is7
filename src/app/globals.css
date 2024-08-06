@@ -13,7 +13,8 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-body {
+body,
+html {
   background-color: #151515;
 }
 
