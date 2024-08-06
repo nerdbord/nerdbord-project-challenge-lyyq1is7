@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 
@@ -28,15 +22,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html className={roboto.className} data-theme="light" lang="en">
         <body>
-          <main className="app">
-            {/*            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>{" "} */}
-            {children}
-          </main>
+          <main className="app">{children}</main>
         </body>
       </html>
     </ClerkProvider>

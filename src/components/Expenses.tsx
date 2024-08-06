@@ -9,6 +9,7 @@ import { GoShareAndroid, GoPlus } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { Loader } from "./Loader";
 import { ReportsGenerator } from "./RaportsGenerator";
+import { UserButton } from "@clerk/nextjs";
 
 export interface Expense {
   id: string;
@@ -71,13 +72,15 @@ export const Expenses: React.FC = () => {
 
   return (
     <div className="flex flex-col w-full h-full overflow-hidden bg-purple-50">
-      <div className="flex h-12 justify-between items-center w-full bg-purple-900 text-white px-4 gap-24">
-        <div className="flex items-center">
+      <div className="flex h-12 justify-between w-full bg-purple-900 text-white px-4 gap-52">
+        <div className="flex items-center m-0">
           <BsChevronLeft className="w-4 h-4" />
           <p className="text-base font-semibold leading-6 pl-4">July 2024</p>
         </div>
-        <p className="text-center text-base font-normal leading-6">0,00 PLN</p>
-        <GoShareAndroid className="w-4 h-4" />
+        <div className="flex items-center gap-4 m-0">
+          <UserButton />
+          <GoShareAndroid className="w-4 h-4" />
+        </div>
       </div>
       <div className="flex h-12 justify-between items-center w-full bg-white text-purple-900 px-4">
         <CiSearch className="w-6 h-6" />

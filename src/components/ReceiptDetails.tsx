@@ -121,7 +121,7 @@ export const ReceiptDetails: React.FC<ReceiptDetailsProps> = ({ result }) => {
           </select>
         </div>
       </div>
-      <p className="text-center pt-8">
+      <p className="text-center pt-8 pb-2">
         You need to be logged in to save receipt.
       </p>
     </div>

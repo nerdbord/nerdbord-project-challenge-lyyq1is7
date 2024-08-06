@@ -1,13 +1,49 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { checkUserInDatabase } from "./user";
-import { Expense } from "@/components/Expenses";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import { generateObject } from "ai";
 import { CATEGORIES_LIB } from "@/lib/categories";
 
 const CATEGORIES = CATEGORIES_LIB;
 
+/* export async function analyzeReceipt(base64String: string): Promise<any> {
+  try {
+    const response = await generateObject({
+      model: "gpt-4o",
+      prompt: "Analyze the receipt photo and extract relevant details.",
+      image: { data: base64String, type: "base64" },
+      schema: {
+        expense: {
+          date: "string",
+          store: "string",
+          total: "number",
+          currency: "string",
+          items: "string",
+          category: "string",
+        },
+        error: {
+          message: "string",
+        },
+      },
+    });
+
+    if (response.data.expense) {
+      return response.data;
+    } else if (response.data.error) {
+      return { error: response.data.error };
+    } else {
+      throw new Error("Unexpected response structure");
+    }
+  } catch (error) {
+    console.error("Error analyzing receipt:", error);
+    return {
+      error: {
+        message: "An unexpected error occurred during receipt analysis",
+      },
+    };
+  }
+}
+ */
 export async function analyzeReceipt(base64String: string): Promise<any> {
   try {
     const response = await fetch(
@@ -23,7 +59,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
           messages: [
             {
               role: "system",
-              content: `You are a personal financial assistant. Your task is to analyze the receipt photo from the provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific.
+              content: `You are a personal financial assistant. Your task is to analyze the receipt photo from the provided link and read the data needed for analysis - what amount was spent, what category of expenses, what it was spent on, in which store, date and time. The description that will be the result of your task should be short and specific. If 
               Answer ONLY by filling clean JSON. Make sure to check out the JSON structure correctly and in the following format:
               {
                 "expense": {
@@ -36,6 +72,7 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
                 }
               }
               Match the categories from the table: ${CATEGORIES.join(", ")}.
+               If any of the data is not illegible in the receipt, or if you are not 100% sure what is written enter ILLEGIBLE.
               If any of the data is not included in the receipt, enter NO DATA. If the photo is too bright or too dark or has unreadable text or is not a receipt return a JSON with an explanation:
               {
                 "error": {

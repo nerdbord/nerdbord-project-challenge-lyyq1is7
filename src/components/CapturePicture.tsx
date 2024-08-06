@@ -7,6 +7,8 @@ import { analyzeReceipt, saveReceipt } from "../actions/receipt";
 import { ReceiptDetails } from "./ReceiptDetails";
 import { Loader } from "./Loader";
 import { useRouter } from "next/navigation";
+import { useUser, useClerk } from "@clerk/nextjs"; // Import Clerk hooks
+import { checkUserInDatabase } from "@/actions/user";
 
 interface Props {}
 
@@ -26,6 +28,7 @@ interface Result {
 }
 
 export const CapturePicture: React.FC<Props> = (props: Props) => {
+  const { isLoaded, isSignedIn } = useUser(); // Clerk's user authentication state
   const [image, setImage] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [analyzing, setAnalyzing] = useState<boolean>(false);
@@ -35,6 +38,7 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const router = useRouter();
+  const { redirectToSignIn } = useClerk();
 
   useEffect(() => {
     if (videoRef.current) {
@@ -101,8 +105,7 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
       if (image) {
         setAnalyzing(true);
         const analysis = await analyzeReceipt(image);
-        // Ensure analysis contains the expected expense structure
-        setResult({ expense: analysis.expense, image, error: analysis.error }); // Set the result including expense
+        setResult({ expense: analysis.expense, image, error: analysis.error });
       }
     } catch (error) {
       console.error("Photo unable to be analyzed.", error);
@@ -112,9 +115,20 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
   };
 
   const handleSaveReceipt = async () => {
+    if (!isLoaded || !isSignedIn) {
+      redirectToSignIn(); // Redirect to sign-in page
+      return;
+    }
+
     setLoading(true);
-    if (result && result.expense) {
-      try {
+    try {
+      // Call the server function to check or create the user in the database
+      const currentUser = await checkUserInDatabase();
+      if (!currentUser) {
+        throw new Error("Failed to get user data. Please try again.");
+      }
+
+      if (result && result.expense) {
         const { expense } = result;
         const receiptData = {
           date: expense.date,
@@ -124,26 +138,27 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
           currency: expense.currency,
           category: expense.category,
           image: image || "",
+          userId: currentUser.id, // Assuming the response contains the user's ID
         };
         const receiptId = await saveReceipt(receiptData);
         console.log("Receipt saved with ID:", receiptId);
-      } catch (error) {
-        console.error("Failed to save receipt:", error);
-      } finally {
-        setLoading(false);
-        router.push("/");
       }
+    } catch (error) {
+      console.error("Failed to save receipt:", error);
+    } finally {
+      setLoading(false);
+      router.push("/");
     }
   };
 
   return (
     <div className="flex flex-col h-screen w-full bg-purple-50">
       {/* Header */}
-      <div className="bg-white h-12 w-full"></div>
+      <div className="bg-white h-16 w-full"></div>
       <div className="flex gap-32 justify-between items-center bg-white h-12 w-full">
         <div className="flex items-center">
           <GoBackBtn />
-          <p className="text-xl font-medium px-2">Capture Documentp</p>
+          <p className="text-xl font-medium px-4">Capture Document</p>
         </div>
         <div className="flex items-center">
           <RiFlashlightLine />
@@ -151,7 +166,6 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
       </div>
 
       {/* Camera Section */}
-
       <div className="flex-grow flex items-center justify-center w-full relative">
         {loading ? (
           <Loader />
@@ -186,16 +200,18 @@ export const CapturePicture: React.FC<Props> = (props: Props) => {
               muted
             />
             <canvas ref={canvasRef} className="hidden" />
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center">
-              <button
-                onClick={captureImage}
-                className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 text-white"
-              >
-                <LensIcon />
-              </button>
-            </div>
           </>
         )}
+        {/*         {image && !result && (
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+            <button
+              onClick={captureImage}
+              className="rounded-full h-20 w-20 flex justify-center items-center bg-violet-700 text-white"
+            >
+              <LensIcon />
+            </button>
+          </div>
+        )} */}
       </div>
 
       {/* Footer */}
